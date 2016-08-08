@@ -287,11 +287,21 @@ module Scalr
         return node[:scalr_server][mod][:enable]
       end
 
-      # HTTPD is enabled if we have web or proxy or repos
+      # HTTPD is enabled if we have web or proxy2
       if mod == :httpd
-        return enable_module?(node, :web) || enable_module?(node, :proxy) || enable_module?(node, :repos)
+        return enable_module?(node, :web) || enable_module?(node, :proxy2)
       end
 
+      # nginx is enabled if we have repos or load balancer
+      if mod == :nginx
+        return enable_module?(node, :repos) || (enable_module?(node, :proxy) && !enable_module?(node, :proxy2))
+      end
+
+      # proxy2 must be explicitely enabled
+      if mod == :proxy2
+        return node[:scalr_server][mod][:enable]
+      end
+      
       # Cloud Service Gateway must be explicitly enabled
       if mod == :csg
         return node[:scalr_server][mod][:enable]

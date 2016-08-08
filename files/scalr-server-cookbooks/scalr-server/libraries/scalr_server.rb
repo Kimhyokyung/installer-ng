@@ -16,6 +16,7 @@ module ScalrServer
   default :app, Mash.new
   default :web, Mash.new
   default :proxy, Mash.new
+  default :proxy2, Mash.new
   default :cron, Mash.new
   default :service, Mash.new
   default :rrd, Mash.new
@@ -109,7 +110,7 @@ module ScalrServer
       results = {:scalr_server => {} }
 
       # Keys that feed `scalr_server` attributes directly
-      %w{routing supervisor app mysql cron rrd service web proxy memcached manifest logrotate repos csg workflow_engine enable_all}.each do |key|
+      %w{routing supervisor app mysql cron rrd service web proxy proxy2 memcached manifest logrotate repos csg workflow_engine enable_all}.each do |key|
         results[:scalr_server][key] = ScalrServer[key]
       end
 
