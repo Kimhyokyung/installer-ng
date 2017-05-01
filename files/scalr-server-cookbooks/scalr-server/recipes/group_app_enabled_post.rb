@@ -71,7 +71,7 @@ mysql_database 'set admin username' do
   description     "Set Scalr admin username (if not changed)"
   connection      mysql_scalr_params(node)
   database_name   node[:scalr_server][:mysql][:scalr_dbname]
-  sql             "UPDATE account_users SET email='#{new_username}' WHERE id=#{admin_id} AND email='#{default_username}'"
+  sql             "UPDATE users SET email='#{new_username}' WHERE id=#{admin_id} AND email='#{default_username}'"
   action          :query
   not_if          { node[:scalr_server][:app][:skip_db_initialization] }
 end
@@ -80,7 +80,7 @@ mysql_database 'set admin password' do
   description     "Set Scalr admin password (if not changed)"
   connection      mysql_scalr_params(node)
   database_name   node[:scalr_server][:mysql][:scalr_dbname]
-  sql             "UPDATE account_users SET password='#{hashed_new_password}' WHERE id=#{admin_id} AND password='#{hashed_default_password}'"
+  sql             "UPDATE users SET password='#{hashed_new_password}' WHERE id=#{admin_id} AND password='#{hashed_default_password}'"
   action          :query
   not_if          { node[:scalr_server][:app][:skip_db_initialization] }
 end
