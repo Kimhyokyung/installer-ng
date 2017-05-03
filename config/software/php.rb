@@ -17,7 +17,7 @@
 
 
 name 'php'
-default_version '5.6.30'
+default_version '7.1.9'
 
 dependency 'zlib'
 dependency 'libedit'
@@ -35,6 +35,7 @@ dependency 'libssh2'
 dependency 'httpd'
 dependency 'libtool'
 dependency 'libidn' # seems to be needed only on centos 6
+
 
 source url: "http://us.php.net/distributions/php-#{version}.tar.gz"
 
@@ -82,6 +83,13 @@ version '5.6.30' do
         source md5: '8c7ef86c259abad33f213405a35a13c2'
 end
 
+version '7.1.4' do
+        source md5: '47e7d116553a879ff957ef2684987c23'
+end
+
+version '7.1.9' do
+        source md5: '8789d817ca23c6fc1c3d4a34e44101be'
+end
 
 relative_path "php-#{version}"
 
@@ -93,19 +101,19 @@ skip_transitive_dependency_licensing true
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure" \
+command "./configure" \
           ' --enable-debug' \
           " --prefix=#{install_dir}/embedded" \
           " --without-pear" \
           " --with-zlib-dir=#{install_dir}/embedded" \
           " --with-pcre-regex=#{install_dir}/embedded" \
           " --with-libxml-dir=#{install_dir}/embedded" \
+          " --with-iconv-dir=#{install_dir}/embedded" \
           " --with-openssl=#{install_dir}/embedded" \
-          " --with-libedit-dir=#{install_dir}/embedded" \
+          " --with-libedit=#{install_dir}/embedded" \
           ' --enable-sockets' \
           " --with-curl=#{install_dir}/embedded" \
           " --with-gettext=#{install_dir}/embedded" \
-          " --with-mysql=#{install_dir}/embedded" \
           " --with-mysqli=#{install_dir}/embedded/bin/mysql_config" \
           " --with-pdo-mysql=#{install_dir}/embedded" \
           " --with-mcrypt=#{install_dir}/embedded" \
@@ -116,7 +124,6 @@ build do
           ' --enable-soap' \
           " --with-ldap=#{install_dir}/embedded" \
           " --with-ldap-sasl=#{install_dir}/embedded" \
-          ' --enable-opcache' \
           " --with-apxs2=#{install_dir}/embedded/bin/apxs" \
           ' --enable-fpm' \
           " --with-config-file-path=#{install_dir}/etc/php" \

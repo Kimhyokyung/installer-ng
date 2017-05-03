@@ -1,14 +1,19 @@
 name 'php-yaml'
-default_version '1.3.0'
+
+default_version '2.0.0'
+
+source url: "http://pecl.php.net/get/yaml-#{version}.tgz"
 
 version '1.1.1' do
-  source url: "http://pecl.php.net/get/yaml-#{version}.tgz"
   source md5: '5ea624ec23fe9ad20e4f24ee43da72b1'
 end
 
 version '1.3.0' do
-  source url: 'http://pecl.php.net/get/yaml-1.3.0.tgz'
   source md5: '4370b78dae20b74102c4f2b541b9dd0b'
+end
+
+version '2.0.0' do
+  source md5: '5bdb54d5cd62d41354434f4d2a1c11ee'
 end
 
 relative_path "yaml-#{version}"

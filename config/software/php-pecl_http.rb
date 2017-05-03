@@ -1,5 +1,6 @@
 name 'php-pecl_http'
-default_version '2.6.0'
+
+default_version '3.1.0'
 
 source url: "http://pecl.php.net/get/pecl_http-#{version}.tgz"
 
@@ -21,6 +22,10 @@ end
 
 version '2.6.0' do
   source md5: '4241d817cae7f244e18a78031f0f6a67'
+end
+
+version '3.1.0' do
+  source md5: '42485c5e9c65224c92e0da49721c053b'
 end
 
 dependency 'zlib'
