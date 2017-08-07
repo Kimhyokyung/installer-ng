@@ -72,14 +72,14 @@ build do
   command "#{install_dir}/embedded/bin/python" \
           ' ./python-licenses.py' \
           " #{license_dir}/python-lib-licenses.txt", env: env
-  command "#{install_dir}/embedded/bin/pip uninstall yolk3k"
+  command "#{install_dir}/embedded/bin/pip uninstall -y yolk3k"
 
   # Python 3 packages
   command "#{install_dir}/embedded/bin/pip3 install yolk3k==0.9", env: env
   command "#{install_dir}/embedded/bin/python" \
           ' ./python-licenses.py' \
           " #{license_dir}/python3-lib-licenses.txt", env: env
-  command "#{install_dir}/embedded/bin/pip3 uninstall yolk3k"
+  command "#{install_dir}/embedded/bin/pip3 uninstall -y yolk3k"
 
   # Ruby gems
   gem 'install gem-licenses' \
