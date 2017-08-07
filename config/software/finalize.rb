@@ -108,4 +108,17 @@ build do
       end
     end
   end
+
+  # Remove unnecessary files from package
+    block do
+    if File.file?("#{install_dir}/embedded/scalr/.releaseignore")
+      File.open("#{install_dir}/embedded/scalr/.releaseignore", "r") do |file_handle|
+        file_handle.each_line do |line|
+          line = line.strip
+          command "rm -rf '#{install_dir}/embedded/scalr#{line}'"
+        end
+        command "rm -rf '#{install_dir}/embedded/scalr/.releaseignore'"
+      end
+    end
+  end
 end

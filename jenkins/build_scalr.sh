@@ -109,19 +109,6 @@ if [ ! -z ${SCALR_BRANCH} ]; then
   cp ./app/python/fatmouse/infra/requirements/server-all.txt ./app/python/
   cp ./app/python/fatmouse/infra/requirements/scalrpy.txt ./app/python/
 
-  #Delete files that should not be in the package
-  if [ -f '.releaseignore' ]; then
-    cat .releaseignore | while read file; do
-
-      if [ -f ".$file" ]; then
-          rm ".$file"
-      elif [ -d ".$file" ]; then
-          rm -fr ".$file"
-      fi
-
-    done
-  fi
-
 fi
 
 #Read data from Scalr source code
