@@ -23,7 +23,6 @@ dependency 'zlib'
 dependency 'libedit'
 dependency 'pcre'
 dependency 'expat'
-dependency 'libxslt'
 dependency 'libxml2'
 dependency 'libiconv'
 dependency 'openssl'
@@ -100,7 +99,6 @@ build do
           " --without-pear" \
           " --with-zlib-dir=#{install_dir}/embedded" \
           " --with-pcre-regex=#{install_dir}/embedded" \
-          " --with-xsl=#{install_dir}/embedded" \
           " --with-libxml-dir=#{install_dir}/embedded" \
           " --with-iconv=#{install_dir}/embedded" \
           " --with-openssl=#{install_dir}/embedded" \
@@ -114,7 +112,6 @@ build do
           " --with-mcrypt=#{install_dir}/embedded" \
           ' --enable-pcntl' \
           ' --enable-sysvsem --enable-sysvshm --enable-sysvmsg' \
-          " --with-xsl=#{install_dir}/embedded" \
           ' --enable-wddx' \
           " --with-libexpat-dir=#{install_dir}/embedded" \
           ' --enable-soap' \
