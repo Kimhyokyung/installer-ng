@@ -37,6 +37,7 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
+          ' --enable-static=no' \
           ' --without-selinux' \
           " --prefix=#{install_dir}/embedded", env: env
 

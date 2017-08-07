@@ -31,7 +31,12 @@ skip_transitive_dependency_licensing true
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded --disable-readline", env: env
+  command './configure' \
+          " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --disable-readline', env: env
+
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
 end

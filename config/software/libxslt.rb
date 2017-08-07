@@ -39,8 +39,8 @@ build do
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
           " --with-libxml-prefix=#{install_dir}/embedded" \
-          " --with-libxml-include-prefix=#{install_dir}/embedded/include" \
-          " --with-libxml-libs-prefix=#{install_dir}/embedded/lib" \
+          ' --enable-static=no' \
+          ' --datarootdir=/tmp' \
           ' --without-python' \
           ' --without-crypto', env: env
 

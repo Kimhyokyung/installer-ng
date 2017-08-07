@@ -35,6 +35,7 @@ build do
 
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
+          ' --disable-static' \
           ' --disable-openmp' \
           ' --disable-java' \
           ' --disable-native-java' \
@@ -42,6 +43,10 @@ build do
           ' --without-git' \
           ' --without-bzip2' \
           ' --without-xz' \
+          ' --disable-libasprintf' \
+          ' --docdir=/tmp' \
+          ' --infodir=/tmp' \
+          ' --mandir=/tmp' \
           " --with-libiconv-prefix=#{install_dir}/embedded" \
           " --with-ncurses-prefix=#{install_dir}/embedded" \
           " --with-libexpat-prefix=#{install_dir}/embedded" \
@@ -49,6 +54,11 @@ build do
           ' --with-included-glib' \
           ' --with-included-libcroco' \
           ' --with-included-libunistring', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+  
+  delete "#{install_dir}/embedded/share/aclocal"
+  delete "#{install_dir}/embedded/share/gettext*"
+
 end

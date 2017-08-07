@@ -48,4 +48,8 @@ build do
   make "-j #{workers} #{args}", env: env
   make "#{args} check", env: env
   make "#{args} install", env: env
+
+  delete "#{install_dir}/embedded/man"
+  delete "#{install_dir}/embedded/lib/libbz2.a"
+
 end

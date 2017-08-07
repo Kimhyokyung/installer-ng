@@ -53,6 +53,7 @@ build do
           ' --enable-ssl' \
           ' --enable-inet6' \
           ' --enable-md5auth' \
+          ' --mandir=/tmp' \
           " --with-cflags=#{Shellwords.escape(env['CFLAGS'])}", env: env
 
   make "-j #{workers}", env: env

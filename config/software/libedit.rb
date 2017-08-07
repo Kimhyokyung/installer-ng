@@ -55,8 +55,11 @@ build do
   end
 
   command "./configure" \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
 end

@@ -45,6 +45,9 @@ build do
           " --prefix=#{install_dir}/embedded" \
           ' --enable-unicode-properties' \
           ' --enable-utf8' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --docdir=/tmp' \
           ' --enable-pcretest-libedit', env: env
 
   make "-j #{workers}", env: env

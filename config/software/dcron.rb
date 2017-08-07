@@ -19,6 +19,7 @@ build do
          " SCRONTABS='#{install_dir}/etc/crond/cron.d'" \
          " CRONTABS='#{install_dir}/var/spool/crond/crontabs'" \
          " CRONSTAMPS='#{install_dir}/var/spool/crond/cronstamps'" \
+         " MANDIR='/tmp'" \
          ' CRONTAB_GROUP=root'
 
   make "-j #{workers} #{args}", env: env

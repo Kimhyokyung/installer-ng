@@ -44,6 +44,9 @@ build do
   patch source: 'fix-libffi-libdir.patch'
 
   command './configure' \
+          ' --enable-static=no' \
+          ' --infodir=/tmp' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env

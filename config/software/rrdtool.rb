@@ -33,7 +33,14 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command "./configure --prefix=#{install_dir}/embedded" \
-          ' --disable-ruby --disable-python', env: env
+          ' --disable-docs' \
+          ' --disable-examples' \
+          ' --enable-static=no' \
+          ' --datarootdir=/tmp' \
+          ' --mandir=/tmp' \
+          ' --disable-ruby' \
+          ' --disable-python', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
 end

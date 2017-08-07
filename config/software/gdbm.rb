@@ -34,17 +34,15 @@ skip_transitive_dependency_licensing true
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  if freebsd?
-    command "./configure" \
-            " --enable-libgdbm-compat" \
-            " --with-pic" \
-            " --prefix=#{install_dir}/embedded", env: env
-  else
-    command "./configure" \
-            " --enable-libgdbm-compat" \
-            " --prefix=#{install_dir}/embedded", env: env
-  end
+  command "./configure" \
+          " --enable-libgdbm-compat" \
+          " --enable-static" \
+          " --bindir=/tmp" \
+          ' --infodir=/tmp' \
+          ' --mandir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "install", env: env
+
 end

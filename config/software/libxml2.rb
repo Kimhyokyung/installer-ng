@@ -45,10 +45,17 @@ build do
           " --prefix=#{install_dir}/embedded" \
           " --with-zlib=#{install_dir}/embedded" \
           " --with-iconv=#{install_dir}/embedded" \
+          ' --enable-shared=yes' \
+          ' --enable-static=no' \
           " --without-python" \
-          " --without-lzma" \
           " --without-icu", env: env
 
   make "-j #{workers}", env: env
-  make "install", env: env
+  make 'install mandir=/tmp', env: env
+
+  #No option to not install docs, so delete manually
+  delete "#{install_dir}/embedded/share/aclocal"
+  delete "#{install_dir}/embedded/share/doc"
+  delete "#{install_dir}/embedded/share/gtk-doc"
+
 end

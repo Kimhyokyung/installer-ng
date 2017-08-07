@@ -37,7 +37,11 @@ build do
           ' --with-zlib=yes' \
           ' --with-bzip2=yes' \
           ' --with-png=yes' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           ' --with-harfbuzz=yes', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

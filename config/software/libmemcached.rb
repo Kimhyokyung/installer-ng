@@ -25,7 +25,11 @@ build do
           ' --without-lcov' \
           ' --without-genhtml' \
           ' --without-sphinx-build' \
+          ' --enable-static=no' \
+          ' --datarootdir=/tmp' \
           " --with-memcached=#{install_dir}/embedded/bin/memcached", env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

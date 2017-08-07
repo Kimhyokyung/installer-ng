@@ -29,8 +29,15 @@ build do
 
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-gtk-doc-html=no' \
+          ' --disable-valgrind' \
+          ' --bindir=/tmp' \
+          ' --enable-static=no' \
           ' --enable-xlib=no' \
           ' --enable-xlib-render=no ', env: env
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  delete "#{install_dir}/embedded/share/gtk-doc"
+
 end

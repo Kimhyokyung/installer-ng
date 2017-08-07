@@ -35,8 +35,14 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
+          ' --shared' \
+          " --sharedlibdir=#{install_dir}/embedded/lib" \
+          ' --libdir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
+  delete "#{install_dir}/embedded/share/man"
+
 end

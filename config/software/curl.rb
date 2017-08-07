@@ -60,6 +60,8 @@ build do
           ' --without-gnutls' \
           ' --without-librtmp' \
           ' --without-libssh2' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --with-ssl=#{install_dir}/embedded" \
           " --with-zlib=#{install_dir}/embedded", env: env
 

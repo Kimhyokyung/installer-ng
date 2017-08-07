@@ -46,9 +46,17 @@ build do
           " --with-pcre=#{install_dir}/embedded" \
           " --with-z=#{install_dir}/embedded" \
           " --with-libxml2=#{install_dir}/embedded" \
+          ' --mandir=/tmp' \
           ' --with-mpm=prefork' \
           ' --enable-so' \
-          ' --enable-authz-owner --enable-deflate --enable-rewrite', env: env
+          ' --enable-authz-owner' \
+          ' --enable-deflate' \
+          ' --enable-rewrite', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  delete "#{install_dir}/embedded/cgi-bin"
+  delete "#{install_dir}/embedded/manual"
+
 end

@@ -20,7 +20,14 @@ skip_transitive_dependency_licensing true
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --disable-posix-threads --prefix=#{install_dir}/embedded", env: env
+  command './configure' \
+          ' --disable-posix-threads' \
+          ' --mandir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
+
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
+  delete "#{install_dir}/embedded/share/aclocal"
+
 end

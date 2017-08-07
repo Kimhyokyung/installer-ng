@@ -56,15 +56,13 @@ build do
   command "./configure" \
           " --prefix=#{install_dir}/embedded" \
           ' --enable-shared' \
+          ' --mandir=/tmp' \
           ' --with-system-expat' \
           ' --with-system-ffi' \
           ' --with-dbmliborder=gdbm', env: env
 
   make "-j #{workers}", env: env
   make 'install', env: env
-
-  # There exists no configure flag to tell Python to not compile readline
-  #delete "#{install_dir}/embedded/lib/python2.7/lib-dynload/readline.*"
 
   # Remove unused extension which is known to make healthchecks fail on CentOS 6
   delete "#{install_dir}/embedded/lib/python2.7/lib-dynload/_bsddb.*"

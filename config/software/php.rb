@@ -121,17 +121,11 @@ build do
           ' --with-fpm-user=scalr' \
           ' --enable-bcmath' \
           ' --enable-mbstring' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --disable-cgi' \
           ' --with-fpm-group=scalr', env: env
 
   make "-j #{workers}", env: env
   make 'install', env: env
 end
-
-#'./configure --enable-opcache --prefix=/opt/php
-#--with-apxs2=/usr/bin/apxs2 --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pgsql=/usr
-#--with-tidy=/usr --with-curl=/usr/bin --with-openssl-dir=/usr --with-zlib-dir=/usr
-#--with-xpm-dir=/usr --with-pdo-pgsql=/usr --with-pdo-mysql=mysqlnd --with-xsl=/usr
-#--with-ldap --with-xmlrpc --with-iconv-dir=/usr --with-snmp=/usr --enable-exif --enable-calendar
-#--with-bz2=/usr --with-mcrypt=/usr --with-gd --with-jpeg-dir=/usr --with-png-dir=/usr
-#--with-freetype-dir=/usr --enable-mbstring --enable-zip --with-pear --with-libdir=/lib/x86_64-linux-gnu
-#--with-config-file-path=/opt'

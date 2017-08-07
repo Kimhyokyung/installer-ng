@@ -46,8 +46,13 @@ build do
 
   command "./configure" \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --with-binconfigs=no' \
+          ' --bindir=/tmp' \
+          ' --mandir=/tmp' \
           " --with-zlib-prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "install", env: env
+
 end

@@ -52,6 +52,7 @@ build do
 
   command './configure' \
           ' --without-selinux' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env

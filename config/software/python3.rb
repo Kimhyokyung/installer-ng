@@ -36,7 +36,7 @@ end
 
 relative_path "Python-#{version}"
 
-license 'Pytnon-2.0'
+license 'Python-2.0'
 license_file 'LICENSE'
 skip_transitive_dependency_licensing true
 
@@ -50,16 +50,11 @@ build do
           ' --with-system-expat' \
           ' --with-system-ffi' \
           ' --enable-shared' \
+          ' --datarootdir=/tmp' \
           ' --enable-unicode=ucs4' \
           ' --with-dbmliborder=gdbm', env: env
 
   make "-j #{workers}", env: env
   make 'install', env: env
-
-  # There exists no configure flag to tell Python to not compile readline
-  #delete "#{install_dir}/embedded/lib/python3.5/lib-dynload/readline.*"
-
-  # Remove unused extension which is known to make healthchecks fail on CentOS 6
-  delete "#{install_dir}/embedded/lib/python3.5/lib-dynload/_bsddb.*"
 
 end

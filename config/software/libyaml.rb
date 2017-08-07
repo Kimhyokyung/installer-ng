@@ -34,7 +34,10 @@ skip_transitive_dependency_licensing true
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded --enable-shared", env: env
+  command './configure' \
+          " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --enable-shared', env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env

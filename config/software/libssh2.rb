@@ -23,9 +23,14 @@ build do
 
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --disable-examples-build' \
+          ' --mandir=/tmp' \
           " --with-libgcrypt-prefix=#{install_dir}/embedded" \
           " --with-libssl-prefix=#{install_dir}/embedded" \
           " --with-libz-prefix=#{install_dir}/embedded", env:env
+
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
 end

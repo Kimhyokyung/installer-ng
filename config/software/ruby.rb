@@ -94,18 +94,9 @@ else  # including linux
 end
 
 build do
-  if solaris2? && version.to_f >= 2.1
-    patch source: "ruby-solaris-no-stack-protector.patch", plevel: 1
-    if ohai['platform_version'].to_f >= 5.11
-      patch source: "ruby-solaris-linux-socket-compat.patch", plevel: 1
-    end
-  elsif solaris2? && version =~ /^1.9/
-    patch source: "ruby-sparc-1.9.3-c99.patch", plevel: 1
-  end
 
-  # AIX needs /opt/freeware/bin only for patch
-  patch_env = env.dup
-  patch_env['PATH'] = "/opt/freeware/bin:#{env['PATH']}" if aix?
+  env = with_standard_compiler_flags(with_embedded_path)
+  env['CFLAGS'] << " -O3 -g -pipe"
 
   # disable libpath in mkmf across all platforms, it trolls omnibus and
   # breaks the postgresql cookbook.  i'm not sure why ruby authors decided
@@ -115,14 +106,18 @@ build do
   # embedded and non-embedded libs get into a fight (libiconv, openssl, etc)
   # and ruby trying to set LD_LIBRARY_PATH itself gets it wrong.
   if version.to_f >= 2.1
-    patch source: "ruby-2_1_3-no-mkmf.patch", plevel: 1, env: patch_env
+    patch source: "ruby-2_1_3-no-mkmf.patch", plevel: 1, env: env
     # should intentionally break and fail to apply on 2.2, patch will need to
     # be fixed.
   end
 
   configure_command = ["./configure",
                        "--prefix=#{install_dir}/embedded",
+                       "--with-opt-dir=#{install_dir}/embedded",
                        "--with-out-ext=dbm",
+                       '--disable-install-rdoc',
+                       '--disable-install-capi',
+                       '--mandir=/tmp',
                        "--enable-shared",
                        "--enable-libedit",
                        "--with-ext=psych",
@@ -130,49 +125,6 @@ build do
                        "--without-gmp",
                        "--disable-dtrace"]
 
-  case ohai['platform']
-  when "aix"
-    # need to patch ruby's configure file so it knows how to find shared libraries
-    patch source: "ruby-aix-configure.patch", plevel: 1, env: patch_env
-    # have ruby use zlib on AIX correctly
-    patch source: "ruby_aix_openssl.patch", plevel: 1, env: patch_env
-    # AIX has issues with ssl retries, need to patch to have it retry
-    patch source: "ruby_aix_2_1_3_ssl_EAGAIN.patch", plevel: 1, env: patch_env
-    # the next two patches are because xlc doesn't deal with long vs int types well
-    patch source: "ruby-aix-atomic.patch", plevel: 1, env: patch_env
-    patch source: "ruby-aix-vm-core.patch", plevel: 1, env: patch_env
-
-    # per IBM, just help ruby along on what it's running on
-    configure_command << "--host=powerpc-ibm-aix6.1.0.0 --target=powerpc-ibm-aix6.1.0.0 --build=powerpc-ibm-aix6.1.0.0 --enable-pthread"
-
-  when "freebsd"
-    # Disable optional support C level backtrace support. This requires the
-    # optional devel/libexecinfo port to be installed.
-    configure_command << "ac_cv_header_execinfo_h=no"
-    configure_command << "--with-opt-dir=#{install_dir}/embedded"
-  when "smartos"
-    # Opscode patch - someara@opscode.com
-    # GCC 4.7.0 chokes on mismatched function types between OpenSSL 1.0.1c and Ruby 1.9.3-p286
-    patch source: "ruby-openssl-1.0.1c.patch", plevel: 1
-
-    # Patches taken from RVM.
-    # http://bugs.ruby-lang.org/issues/5384
-    # https://www.illumos.org/issues/1587
-    # https://github.com/wayneeseguin/rvm/issues/719
-    patch source: "rvm-cflags.patch", plevel: 1
-
-    # From RVM forum
-    # https://github.com/wayneeseguin/rvm/commit/86766534fcc26f4582f23842a4d3789707ce6b96
-    configure_command << "ac_cv_func_dl_iterate_phdr=no"
-    configure_command << "--with-opt-dir=#{install_dir}/embedded"
-  else
-    configure_command << "--with-opt-dir=#{install_dir}/embedded"
-  end
-
-  # FFS: works around a bug that infects AIX when it picks up our pkg-config
-  # AFAIK, ruby does not need or use this pkg-config it just causes the build to fail.
-  # The alternative would be to patch configure to remove all the pkg-config garbage entirely
-  env.merge!("PKG_CONFIG" => "/bin/true") if aix?
 
   command configure_command.join(" "), env: env
   make "-j #{workers}", env: env

@@ -33,9 +33,12 @@ build do
           " --with-dbpath=#{install_dir}/embedded/etc/sasldb2" \
           ' --with-dblib=gdbm' \
           " --with-gdbm=#{install_dir}/embedded" \
+          ' --disable-macos-framework' \
+          ' --mandir=/tmp' \
           " --with-openssl=#{install_dir}/embedded", env: env
 
   make env: env  # -j N is not reliable
   make "-j #{workers} check", env: env
   make "-j #{workers} install", env: env
+
 end
