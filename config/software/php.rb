@@ -24,7 +24,6 @@ dependency 'libedit'
 dependency 'pcre'
 dependency 'expat'
 dependency 'libxml2'
-dependency 'libiconv'
 dependency 'openssl'
 dependency 'libmcrypt'
 dependency 'mysql'
@@ -100,7 +99,6 @@ build do
           " --with-zlib-dir=#{install_dir}/embedded" \
           " --with-pcre-regex=#{install_dir}/embedded" \
           " --with-libxml-dir=#{install_dir}/embedded" \
-          " --with-iconv=#{install_dir}/embedded" \
           " --with-openssl=#{install_dir}/embedded" \
           " --with-libedit-dir=#{install_dir}/embedded" \
           ' --enable-sockets' \
