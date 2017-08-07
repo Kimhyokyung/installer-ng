@@ -4,6 +4,14 @@ maintainer 'Scalr, Inc.'
 homepage 'https://www.scalr.com'
 description 'Full stack Scalr Server'
 
+package :deb do
+  vendor 'Scalr, Inc. <info@scalr.com>'
+end
+
+package :rpm do
+  vendor 'Scalr, Inc. <info@scalr.com>'
+end
+
 install_dir "#{default_root}/#{name}"
 
 if ENV['EDITION'] == "enterprise"
