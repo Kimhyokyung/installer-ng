@@ -49,6 +49,8 @@ build do
       'share/doc',        # Various documentation pages
       'sql-bench',        # MySQL benchmark
       'php/man',          # PHP man pages
+      'build',
+      'build-1',
   ].each do |dir|
     delete "#{install_dir}/embedded/#{dir}"
   end
