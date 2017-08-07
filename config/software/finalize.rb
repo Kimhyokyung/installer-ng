@@ -23,8 +23,8 @@ default_version '2.0.0'
 
 source :path => File.expand_path('files/license-scripts', Omnibus::Config.project_root)
 
-dependency 'yolk'
-dependency 'license-gem'
+dependency 'pip'
+dependency 'rubygems'
 
 license :project_license
 skip_transitive_dependency_licensing true
@@ -62,18 +62,36 @@ build do
     end
   end
 
-  # License manifest
+  # License manifests
+  # TODO: remove packages not included in our package from license manifests: yolk, gem-licenses
   license_dir = "#{install_dir}/LICENSES"
   mkdir license_dir
 
+  # Python 2 packages
+  command "#{install_dir}/embedded/bin/pip install yolk3k==0.8.6", env: env
   command "#{install_dir}/embedded/bin/python" \
           ' ./python-licenses.py' \
           " #{license_dir}/python-lib-licenses.txt", env: env
+  command "#{install_dir}/embedded/bin/pip uninstall yolk3k"
 
+  # Python 3 packages
+  command "#{install_dir}/embedded/bin/pip3 install yolk3k==0.9", env: env
+  command "#{install_dir}/embedded/bin/python" \
+          ' ./python-licenses.py' \
+          " #{license_dir}/python3-lib-licenses.txt", env: env
+  command "#{install_dir}/embedded/bin/pip3 uninstall yolk3k"
+
+  # Ruby gems
+  gem 'install gem-licenses' \
+      " --version '0.2.1'" \
+      " --bindir '#{install_dir}/embedded/bin'" \
+      ' --no-ri --no-rdoc', env: env
   command "#{install_dir}/embedded/bin/ruby" \
           ' ./ruby-licenses.rb' \
           " #{license_dir}/ruby-lib-licenses.txt", env: env
+  gem 'uninstall gem-licenses', env: env 
 
+  # PHP packages (installed by composer)
   block do
     ENV['COMPOSER_ALLOW_SUPERUSER'] = '1'
     composer = "#{install_dir}/embedded/bin/php #{install_dir}/embedded/bin/composer.phar --working-dir=#{install_dir}/embedded/scalr/"
