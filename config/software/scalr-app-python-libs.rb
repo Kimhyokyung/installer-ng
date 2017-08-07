@@ -25,6 +25,7 @@ dependency 'pip'
 
 # Python package dependencies
 dependency 'libffi'
+dependency 'libxslt'
 dependency 'openssl'
 dependency 'cairo'
 dependency 'pango'
