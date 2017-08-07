@@ -26,7 +26,6 @@ license :project_license
 skip_transitive_dependency_licensing true
 
 
-dependency 'wget'
 
 build do
   # Shell commands imported from the repo
