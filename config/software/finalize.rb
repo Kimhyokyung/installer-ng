@@ -76,7 +76,7 @@ build do
 
   # Python 3 packages
   command "#{install_dir}/embedded/bin/pip3 install yolk3k==0.9", env: env
-  command "#{install_dir}/embedded/bin/python" \
+  command "#{install_dir}/embedded/bin/python3" \
           ' ./python-licenses.py' \
           " #{license_dir}/python3-lib-licenses.txt", env: env
   command "#{install_dir}/embedded/bin/pip3 uninstall -y yolk3k"
