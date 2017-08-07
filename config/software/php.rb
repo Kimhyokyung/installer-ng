@@ -33,7 +33,6 @@ dependency 'libsasl'
 dependency 'gettext'
 dependency 'libssh2'
 dependency 'httpd'
-dependency 'libtool'
 
 source url: "http://us.php.net/distributions/php-#{version}.tar.gz"
 
