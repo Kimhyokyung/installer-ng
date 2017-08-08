@@ -296,6 +296,9 @@ elif [ "x$2" = "xpull" ]; then
 
     echo -n "Pulling $PULL DEB packages... "
     downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/apt-plain/ "$SCALR_REPO_ROOT/$PULL/apt-plain/"
+    # INST-77 : Packages files have link to packages that are latest/<*.deb> or stable/<*.deb>, we create a symlink so that apt finds its children
+    APT_EXPECTED_FILES_DIR=$(grep -m 1 -oP '(?<=Filename: )[a-z]+(?=\/scalarizr.+\.deb)' "$SCALR_REPO_ROOT/$PULL/apt-plain/Packages")
+    ln -sfn "$SCALR_REPO_ROOT/$PULL/apt-plain" "$SCALR_REPO_ROOT/$PULL/apt-plain/$APT_EXPECTED_FILES_DIR"
     echo -e "[ \033[32mDONE\033[0m ]"
 
     echo -n "Pulling $PULL WIN packages... "
