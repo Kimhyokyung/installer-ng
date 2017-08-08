@@ -33,4 +33,8 @@ build do
 
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  ['plink', 'pscp', 'psftp'].each do |binary|
+    delete "#{install_dir}/embedded/bin/#{binary}"
+  end
 end
