@@ -276,22 +276,16 @@ elif [ "x$2" = "xpull" ]; then
     done < <(getDirectories 'http://snapshot.repo.scalr.net/scalarizr/current/win/')
 
     echo -n "Pulling $PULL RPM packages... "
-    downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/5/ "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5/"
-
-    BASE=5
-    VERSION=$(echo "$PULL" | sed 's/\.//g')
-    if [ "$VERSION" -gt "536" ]; then
-        downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/6/ "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6/"
-        BASE=6
-    else
-        ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6"
-    fi
+    BASE=6
+    downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/6/ "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6/"
 
     ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/7"
-    ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5Server"
 
     while read line; do
         if [ -d "$SCALR_REPO_ROOT/$PULL/rpm/rhel/${line}" ]; then
+            continue
+        fi
+        if [ "${line}" = "5" ] || [ "${line}" = "5Server" ] ; then
             continue
         fi
 
