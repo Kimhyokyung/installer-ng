@@ -12,7 +12,9 @@ dependency 'openssl'
 
 relative_path "cyrus-sasl-#{version}"
 
-license path: 'COPYING'
+license 'CMU'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -27,9 +29,12 @@ build do
           " --with-configdir=#{install_dir}/embedded/lib/sasl2 " \
           " --with-plugindir=#{install_dir}/embedded/lib/sasl2 " \
           ' --without-saslauthd' \
+          ' --disable-macos-framework' \
+          ' --mandir=/tmp' \
           " --with-openssl=#{install_dir}/embedded", env: env
 
   make env: env  # -j N is not reliable
   make "-j #{workers} check", env: env
   make "-j #{workers} install", env: env
+
 end

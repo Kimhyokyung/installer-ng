@@ -25,6 +25,7 @@ dependency 'pip'
 
 # Python package dependencies
 dependency 'libffi'
+dependency 'libxslt'
 dependency 'openssl'
 dependency 'cairo'
 dependency 'pango'
@@ -32,6 +33,10 @@ dependency 'glib'
 dependency 'libxml2'
 dependency 'rrdtool'
 dependency 'libyaml'
+
+license :project_license
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)

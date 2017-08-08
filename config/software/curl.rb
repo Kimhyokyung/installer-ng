@@ -35,7 +35,9 @@ end
 
 relative_path "curl-#{version}"
 
-license path: 'COPYING'
+license 'MIT'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -58,6 +60,8 @@ build do
           ' --without-gnutls' \
           ' --without-librtmp' \
           ' --without-libssh2' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --with-ssl=#{install_dir}/embedded" \
           " --with-zlib=#{install_dir}/embedded", env: env
 

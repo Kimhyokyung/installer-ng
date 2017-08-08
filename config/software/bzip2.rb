@@ -28,7 +28,9 @@ source url: "http://www.bzip.org/#{version}/#{name}-#{version}.tar.gz",
 
 relative_path "#{name}-#{version}"
 
-license path: 'LICENSE'
+license 'BSD-4-Clause'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -46,4 +48,8 @@ build do
   make "-j #{workers} #{args}", env: env
   make "#{args} check", env: env
   make "#{args} install", env: env
+
+  delete "#{install_dir}/embedded/man"
+  delete "#{install_dir}/embedded/lib/libbz2.a"
+
 end

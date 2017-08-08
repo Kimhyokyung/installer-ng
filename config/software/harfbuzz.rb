@@ -17,13 +17,22 @@ dependency 'cairo'
 
 relative_path "harfbuzz-#{version}"
 
-license path: 'COPYING'
+license 'Old-MIT'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command "./configure" \
+          ' --enable-gtk-doc-html=no' \
+          ' --bindir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  delete "#{install_dir}/embedded/share/gtk-doc"
+
 end

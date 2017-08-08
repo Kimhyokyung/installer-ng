@@ -3,11 +3,12 @@ default_version '__SCALR_APP_REVISION__'
 
 source :path => '__SCALR_APP_PATH__'
 
-# Manually composer licenses
-license path: "vendor/google/apiclient/LICENSE"
-license path: "vendor/onelogin/php-saml/LICENSE"
+license :project_license
+skip_transitive_dependency_licensing true
+
 
 dependency 'php-composer'
+
 
 build do
   # Install dependencies using composer

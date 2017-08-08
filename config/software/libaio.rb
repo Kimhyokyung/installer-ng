@@ -12,7 +12,9 @@ end
 
 relative_path "libaio-#{version}"
 
-license path: 'COPYING'
+license 'LGPL-2.1'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do

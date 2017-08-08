@@ -26,12 +26,16 @@ end
 
 relative_path "gmp-#{version}"
 
-license path: 'COPYING'
+license 'LGPL-3.0'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command "./configure" \
+          ' --enable-static=no' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env

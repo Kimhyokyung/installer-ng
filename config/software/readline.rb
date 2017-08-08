@@ -12,6 +12,11 @@ source :url => "ftp://ftp.gnu.org/gnu/readline/readline-#{version}.tar.gz",
 
 relative_path "readline-#{version}"
 
+license 'GPL-3.0'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
+
+
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
@@ -19,6 +24,10 @@ build do
 
   command './configure ' \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --docdir=/tmp' \
+          ' --infodir=/tmp' \
           " --with-curses", env: env
 
   command 'make', env: env

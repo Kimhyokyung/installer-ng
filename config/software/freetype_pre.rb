@@ -17,6 +17,9 @@ end
 
 relative_path "freetype-#{version}"
 
+license :project_license
+skip_transitive_dependency_licensing true
+
 
 dependency 'zlib'
 dependency 'bzip2'
@@ -29,9 +32,11 @@ build do
 
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
           ' --with-zlib=yes' \
           ' --with-bzip2=yes' \
           ' --with-png=yes' \
+          ' --mandir=/tmp' \
           ' --with-harfbuzz=no', env: env
   make "-j #{workers}", env: env
   make 'install', env: env

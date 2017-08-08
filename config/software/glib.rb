@@ -18,7 +18,9 @@ dependency 'libffi'
 
 relative_path "glib-#{version}"
 
-license path: 'COPYING'
+license 'LGPL-2.1'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -29,10 +31,23 @@ build do
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
           ' --with-libiconv=gnu' \
+          ' --enable-man=no' \
+          ' --enable-gtk-doc-html=no' \
           ' --disable-libmount' \
+          ' --disable-maintainer-mode' \
+          ' --disable-fam' \
           ' --disable-selinux' \
           ' --disable-dtrace' \
           ' --disable-systemtap', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  delete "#{install_dir}/embedded/share/aclocal"
+  delete "#{install_dir}/embedded/share/bash-completion"
+  delete "#{install_dir}/embedded/share/gdb"
+  delete "#{install_dir}/embedded/share/gettext"
+  delete "#{install_dir}/embedded/share/glib-*"
+  delete "#{install_dir}/embedded/share/gtk-doc"
+
 end

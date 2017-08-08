@@ -26,15 +26,23 @@ source url: "http://downloads.sourceforge.net/project/libpng/zlib/#{version}/zli
 
 relative_path "zlib-#{version}"
 
-license path: 'README', cue: 'Copyright notice'
+license 'Zlib'
+license_file 'https://www.zlib.net/zlib_license.html'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
+          ' --shared' \
+          " --sharedlibdir=#{install_dir}/embedded/lib" \
+          ' --libdir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
+  delete "#{install_dir}/embedded/share/man"
+
 end

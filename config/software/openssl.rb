@@ -77,7 +77,9 @@ end
 
 relative_path "openssl-#{version}"
 
-license path: 'LICENSE'
+license 'openssl'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -101,17 +103,11 @@ build do
 
   command configure_command, env: env
   make 'depend', env: env
-  # make -j N on openssl is not reliable
   make "-j #{workers}", env: env
-  if aix?
-    # We have to sudo this because you can't actually run slibclean without being root.
-    # Something in openssl changed in the build process so now it loads the libcrypto
-    # and libssl libraries into AIX's shared library space during the first part of the
-    # compile. This means we need to clear the space since it's not being used and we
-    # can't install the library that is already in use. Ideally we would patch openssl
-    # to make this not be an issue.
-    # Bug Ref: http://rt.openssl.org/Ticket/Display.html?id=2986&user=guest&pass=guest
-    command 'sudo /usr/sbin/slibclean', env: env
-  end
   make 'install', env: env
+
+  delete "#{install_dir}/embedded/lib/libcrypto.a"
+  delete "#{install_dir}/embedded/lib/libssl.a"
+  delete "#{install_dir}/embedded/ssl/man"
+
 end

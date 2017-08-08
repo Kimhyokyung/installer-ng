@@ -28,15 +28,20 @@ end
 
 relative_path "zeromq-#{version}"
 
-license path: 'COPYING.LESSER'
+license 'LGPL-3.0'
+license_file 'COPYING.LESSER'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
   env['CXXFLAGS'] = "-L#{install_dir}/embedded/lib -I#{install_dir}/embedded/include"
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command './configure' \
+          ' --mandir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
 end

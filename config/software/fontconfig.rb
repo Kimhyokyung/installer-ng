@@ -10,7 +10,9 @@ relative_path "fontconfig-#{version}"
 dependency 'libiconv'
 dependency 'expat'
 
-license path: 'COPYING'
+license 'fontconfig'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -21,7 +23,15 @@ build do
           " --with-add-fonts=#{install_dir}/embedded/share/fonts" \
           ' --enable-iconv' \
           " --with-libiconv=#{install_dir}/embedded" \
+          ' --disable-docs' \
+          ' --bindir=/tmp' \
+          ' --datarootdir=/tmp' \
+          " --sysconfdir=#{install_dir}/etc" \
+          " --with-configdir=#{install_dir}/etc/fonts/conf.d" \
+          " --with-cache-dir=#{install_dir}/var/cache/fontconfig" \
           " --with-expat=#{install_dir}/embedded", env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

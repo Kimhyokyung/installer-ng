@@ -15,7 +15,9 @@ dependency 'python'
 
 relative_path "mysql-utilities-#{version}"
 
-license path: 'LICENSE.txt'
+license 'GPL-2.0'
+license_file 'LICENSE.txt'
+skip_transitive_dependency_licensing true
 
 
 build do

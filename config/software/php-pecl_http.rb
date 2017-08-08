@@ -28,7 +28,10 @@ dependency 'php-propro'
 
 relative_path "pecl_http-#{version}"
 
-license path: 'LICENSE'
+license 'BSD-2-Clause'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)

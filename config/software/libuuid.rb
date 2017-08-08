@@ -27,14 +27,21 @@ end
 
 relative_path "util-linux-#{version}"
 
-license path: 'COPYING'
+license 'GPL-2.0'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command './configure' \
+          ' --without-ncurses' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env, cwd: "#{project_dir}/libuuid"
   make "-j #{workers} install", env: env, cwd: "#{project_dir}/libuuid"
+
 end

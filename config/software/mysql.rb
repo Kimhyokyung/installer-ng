@@ -26,7 +26,9 @@ dependency 'perl'
 
 relative_path "mysql-#{version}"
 
-license path: 'COPYING'
+license 'GPL-2.0'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 # View: http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html
@@ -41,13 +43,21 @@ build do
               '-DCMAKE_SKIP_RPATH=YES',
               "-DCMAKE_INSTALL_PREFIX=#{install_dir}/embedded",
               # Additional Paths flag. We kindly ask MySQL not to drop everything in ./embedded
-              "-DINSTALL_DOCREADMEDIR=#{install_dir}/embedded/mysql-doc",
-              "-DINSTALL_INFODIR=#{install_dir}/embedded/mysql-doc",
+              # Additional Paths flag. We kindly ask MySQL not to drop everything in ./embedded
+              '-DINSTALL_DOCREADMEDIR=/tmp',
+              '-DINSTALL_INFODIR=/tmp',
+              '-DINSTALL_MYSQLTESTDIR=/tmp',
+              '-DINSTALL_INFODIR=/tmp',
+              '-DINSTALL_DOCDIR=/tmp',
+              '-DINSTALL_MANDIR=/tmp',
+              '-DINSTALL_SQLBENCHDIR=/tmp',
               # Build type
               '-DBUILD_CONFIG=mysql_release',
               # Don't build embedded server libraries (we don't use those, and they are *huge*)
               '-DWITH_EMBEDDED_SERVER=0',
-              '-DWITH_EMBEDDED_SHARED_LIBRARY=0',
+              # We don't need NDB
+              '-DWITH_NDBCLUSTER=OFF',
+              '-DWITH_NDBCLUSTER_STORAGE_ENGINE=OFF',
               # Lib flags
               '-DWITH_ZLIB=system',
               '-DWITH_SSL=system',
@@ -66,4 +76,7 @@ build do
 
   #Use embedded Perl binary
   command "sed -i '1 s|^.*$|#!#{install_dir}/embedded/bin/perl|g' #{install_dir}/embedded/scripts/mysql_install_db", env: env
+
+  delete "#{install_dir}/embedded/data"
+
 end

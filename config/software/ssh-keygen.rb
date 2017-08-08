@@ -28,7 +28,9 @@ end
 
 relative_path "openssh-#{version}"
 
-license path: 'LICENCE', encoding: Encoding::ISO_8859_1
+license '0BSD'
+license_file 'LICENCE'
+skip_transitive_dependency_licensing true
 
 
 build do

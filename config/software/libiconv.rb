@@ -32,7 +32,9 @@ end
 
 relative_path "libiconv-#{version}"
 
-license path: 'COPYING.LIB'
+license 'LGPL-2.1'
+license_file 'COPYING.LIB'
+skip_transitive_dependency_licensing true
 
 
 build do

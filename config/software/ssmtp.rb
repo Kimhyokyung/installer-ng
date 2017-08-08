@@ -29,7 +29,9 @@ dependency 'cacerts'
 
 relative_path "ssmtp-#{version}"
 
-license path: 'COPYING'
+license 'GPL-2.0'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -51,6 +53,7 @@ build do
           ' --enable-ssl' \
           ' --enable-inet6' \
           ' --enable-md5auth' \
+          ' --mandir=/tmp' \
           " --with-cflags=#{Shellwords.escape(env['CFLAGS'])}", env: env
 
   make "-j #{workers}", env: env

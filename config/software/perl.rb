@@ -30,7 +30,9 @@ end
 
 relative_path "perl-#{version}"
 
-license path: 'Copying'
+license 'Perl-5'
+license_file 'Copying'
+skip_transitive_dependency_licensing true
 
 
 build do

@@ -13,13 +13,17 @@ end
 
 relative_path "apr-#{version}"
 
-license path: 'LICENSE'
+license 'Apache-2.0'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command "./configure" \
+          ' --enable-static=no' \
+          " --prefix=#{install_dir}/embedded", env: env
   make "-j #{workers}", env: env
   make 'install', env: env
 end

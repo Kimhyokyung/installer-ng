@@ -13,16 +13,24 @@ dependency 'libgcrypt'
 
 relative_path "libssh2-#{version}"
 
-license path: 'COPYING'
+license 'BSD-3-Clause'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --disable-examples-build' \
+          ' --mandir=/tmp' \
           " --with-libgcrypt-prefix=#{install_dir}/embedded" \
           " --with-libssl-prefix=#{install_dir}/embedded" \
           " --with-libz-prefix=#{install_dir}/embedded", env:env
+
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
 end

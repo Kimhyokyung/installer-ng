@@ -36,7 +36,9 @@ dependency "zlib"
 
 relative_path "libpng-#{version}"
 
-license path: 'LICENSE'
+license 'libpng'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -44,8 +46,13 @@ build do
 
   command "./configure" \
           " --prefix=#{install_dir}/embedded" \
+          ' --enable-static=no' \
+          ' --with-binconfigs=no' \
+          ' --bindir=/tmp' \
+          ' --mandir=/tmp' \
           " --with-zlib-prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "install", env: env
+
 end
