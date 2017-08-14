@@ -22,7 +22,6 @@ dependency 'ncurses'
 dependency 'libedit'
 dependency 'openssl'
 dependency 'libaio'
-dependency 'perl'
 
 relative_path "mysql-#{version}"
 
@@ -42,7 +41,8 @@ build do
               # General flags
               '-DCMAKE_SKIP_RPATH=YES',
               "-DCMAKE_INSTALL_PREFIX=#{install_dir}/embedded",
-              # Additional Paths flag. We kindly ask MySQL not to drop everything in ./embedded
+              # Do not create a scripts directory just for mysql
+              "-DINSTALL_SCRIPTDIR=#{install_dir}/embedded/bin",
               # Additional Paths flag. We kindly ask MySQL not to drop everything in ./embedded
               '-DINSTALL_DOCREADMEDIR=/tmp',
               '-DINSTALL_INFODIR=/tmp',
@@ -74,8 +74,12 @@ build do
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
 
-  #Use embedded Perl binary
-  command "sed -i '1 s|^.*$|#!#{install_dir}/embedded/bin/perl|g' #{install_dir}/embedded/scripts/mysql_install_db", env: env
+  # Delete perl version of the mysql_install_db script
+  delete "#{install_dir}/embedded/bin/mysql_install_db"
+  # Install bash script instead
+  block do
+    FileUtils.install "#{project_dir}/scripts/mysql_install_db.sh", "#{install_dir}/embedded/bin/mysql_install_db", :mode => 0755
+  end
 
   delete "#{install_dir}/embedded/data"
 
