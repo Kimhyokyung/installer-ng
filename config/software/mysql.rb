@@ -74,10 +74,12 @@ build do
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
 
-  # Move perl script away and install the bash script instead to remove dependency on Perl
-  move "#{install_dir}/embedded/bin/mysql_install_db", "#{install_dir}/embedded/bin/mysql_install_db.pl"
+  # Delete perl version of the mysql_install_db script
+  delete "#{install_dir}/embedded/bin/mysql_install_db"
   # Install bash script instead
-  copy 'scripts/mysql_install_db.sh', "#{install_dir}/embedded/bin/mysql_install_db"
+  block do
+    FileUtils.install "#{project_dir}/scripts/mysql_install_db.sh", "#{install_dir}/embedded/bin/mysql_install_db", :mode => 0755
+  end
 
   delete "#{install_dir}/embedded/data"
 
