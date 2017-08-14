@@ -22,7 +22,6 @@ dependency 'ncurses'
 dependency 'libedit'
 dependency 'openssl'
 dependency 'libaio'
-dependency 'perl'
 
 relative_path "mysql-#{version}"
 
@@ -75,8 +74,10 @@ build do
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
 
-  #Use embedded Perl binary
-  command "sed -i '1 s|^.*$|#!#{install_dir}/embedded/bin/perl|g' #{install_dir}/embedded/bin/mysql_install_db", env: env
+  # Move perl script away and install the bash script instead to remove dependency on Perl
+  move "#{install_dir}/embedded/bin/mysql_install_db" "#{install_dir}/embedded/bin/mysql_install_db.pl"
+  # Install bash script instead
+  copy 'scripts/mysql_install_db.sh' "#{install_dir}/embedded/bin/mysql_install_db"
 
   delete "#{install_dir}/embedded/data"
 
