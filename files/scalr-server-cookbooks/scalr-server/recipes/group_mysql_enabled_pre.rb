@@ -46,7 +46,7 @@ end
 
 execute 'mysql_install_db' do
   description "Import mandatory MySQL databases"
-  command "#{node[:scalr_server][:install_root]}/embedded/scripts/mysql_install_db" \
+  command "#{node[:scalr_server][:install_root]}/embedded/bin/mysql_install_db" \
           " --defaults-file=#{etc_dir_for node, 'mysql'}/my.cnf" \
           " --basedir=#{node[:scalr_server][:install_root]}/embedded" \
           " --user=#{node[:scalr_server][:mysql][:user]}"
