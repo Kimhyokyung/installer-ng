@@ -75,9 +75,9 @@ build do
   make "-j #{workers} install", env: env
 
   # Move perl script away and install the bash script instead to remove dependency on Perl
-  move "#{install_dir}/embedded/bin/mysql_install_db" "#{install_dir}/embedded/bin/mysql_install_db.pl"
+  move "#{install_dir}/embedded/bin/mysql_install_db", "#{install_dir}/embedded/bin/mysql_install_db.pl"
   # Install bash script instead
-  copy 'scripts/mysql_install_db.sh' "#{install_dir}/embedded/bin/mysql_install_db"
+  copy 'scripts/mysql_install_db.sh', "#{install_dir}/embedded/bin/mysql_install_db"
 
   delete "#{install_dir}/embedded/data"
 
