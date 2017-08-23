@@ -117,32 +117,6 @@ KeepAliveTimeout 30
     </VirtualHost>
 <% end %>
 
-# Repos #
-
-<% if enable_module?(node, :repos) %>
-    Listen <%= node[:scalr_server][:repos][:bind_host] %>:<%= node[:scalr_server][:repos][:bind_port] %>
-
-    <VirtualHost *:<%= node[:scalr_server][:repos][:bind_port] %>>
-      DocumentRoot <%= node[:scalr_server][:repos][:root] %>/current
-
-      ErrorLog  <%= log_dir_for node, 'httpd' %>/web.repos.error.log
-      <IfModule log_config_module>
-            CustomLog <%= log_dir_for node, 'httpd' %>/web.repos.access.log combined
-      </IfModule>
-
-      <Directory <%= node[:scalr_server][:repos][:root] %>/current>
-        Options +Indexes +FollowSymLinks +MultiViews
-        AllowOverride None
-        AuthType None
-        Order allow,deny
-        Allow from all
-        Satisfy All
-        Require all granted
-      </Directory>
-
-    </VirtualHost>
-
-<% end %>
 
 # Proxy #
 

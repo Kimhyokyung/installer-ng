@@ -13,12 +13,16 @@
 # limitations under the License.
 
 name 'nginx'
-default_version '1.8.0'
+default_version '1.13.4'
 
-source url: "http://nginx.org/download/nginx-#{version}.tar.gz"
+source url: "https://nginx.org/download/nginx-#{version}.tar.gz"
 
 version '1.8.0' do
   source md5: '3ca4a37931e9fa301964b8ce889da8cb'
+end
+
+version '1.13.4' do
+  source md5: '42a3ca70cd292a149ba4f60862599245'
 end
 
 dependency 'openssl'
@@ -27,7 +31,10 @@ dependency 'zlib'
 
 relative_path "nginx-#{version}"
 
-license path: 'LICENSE'
+license 'BSD-2-Clause'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
@@ -48,16 +55,15 @@ build do
           ' --with-http_ssl_module' \
           ' --with-http_stub_status_module' \
           ' --with-http_gzip_static_module' \
-          ' --with-http_spdy_module' \
-          ' --with-threads' \
-          ' --with-ipv6', env: env
+          ' --with-http_v2_module' \
+          ' --with-threads', env: env
 
   make env: env
   make 'install', env: env
 
-  #Delete unwanted pahts. Will be re-created by Chef if needed
+  # Delete unwanted paths. Will be re-created by Chef if needed
   ['embedded/html', 'etc/nginx', 'var/log/nginx', 'var/run/nginx', 'var/lib/nginx'].each do |dir|
-    command "rm -rf '#{install_dir}/#{dir}'"
+    delete "#{install_dir}/#{dir}"
   end
 
 end
