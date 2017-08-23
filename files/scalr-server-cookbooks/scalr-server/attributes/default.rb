@@ -351,6 +351,14 @@ default[:scalr_server][:service][:plotter_bind_host] = '127.0.0.1'
 default[:scalr_server][:service][:plotter_bind_port] = 6272
 
 
+###################
+# Workflow engine #
+###################
+
+# Whether to enable the workflow engine service
+default[:scalr_server][:workflow_engine][:enable] = false
+
+
 #######
 # RRD #
 #######
