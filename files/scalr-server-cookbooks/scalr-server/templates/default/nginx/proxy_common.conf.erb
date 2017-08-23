@@ -1,0 +1,36 @@
+access_log <%= log_dir_for node, 'nginx' %>/web.proxy.access.log extra;
+error_log <%= log_dir_for node, 'nginx' %>/web.proxy.error.log;
+
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $remote_addr;
+proxy_connect_timeout 300;
+proxy_send_timeout 300;
+proxy_read_timeout 300;
+
+location ~* ^.+\.(css|js)$ {
+    expires 1w;
+
+    root <%= node[:scalr_server][:install_root] %>/embedded/scalr/app/www;
+
+    access_log <%= node[:scalr_server][:install_root] %>/var/log/nginx/access.static-js.log;
+
+    rewrite ^/ui2/js/(.*)-[0-9]+.js /ui2/js/$1.js last;
+    rewrite ^/ui2/js/(.*)-[0-9]+.css /ui2/js/$1.css last;
+}
+
+location / {
+  proxy_pass http://app;
+}
+
+location /graphics {
+  proxy_pass http://graphics/;
+}
+
+location /load_statistics {
+  proxy_pass http://plotter;
+}
+
+location /repos {
+  proxy_pass http://repos/;
+}

@@ -37,7 +37,6 @@ template "#{etc_dir_for node, 'nginx'}/nginx.conf" do
   owner     'root'
   group     'root'
   mode      0644
-  variables :cores => Mixlib::ShellOut.new('cat /proc/cpuinfo | grep processor | wc -l').run_command.stdout.to_i
   helpers do
     include Scalr::PathHelper
     include Scalr::ServiceHelper
@@ -46,12 +45,16 @@ template "#{etc_dir_for node, 'nginx'}/nginx.conf" do
   notifies  :restart, 'supervisor_service[nginx]' if service_is_up?(node, 'nginx')
 end
 
-template "#{etc_dir_for node, 'nginx'}/locations.conf" do
-  description "Generate vhost configuration (" + "#{etc_dir_for node, 'nginx'}/locations.conf" + ")"
-  source    'nginx/locations.conf.erb'
+template "#{etc_dir_for node, 'nginx'}/proxy_common.conf" do
+  description "Generate vhost configuration (" + "#{etc_dir_for node, 'nginx'}/proxy_common.conf" + ")"
+  source    'nginx/proxy_common.conf.erb'
   owner     'root'
   group     'root'
   mode      0644
+  helpers do
+    include Scalr::PathHelper
+    include Scalr::ServiceHelper
+  end
   notifies  :restart, 'supervisor_service[httpd]', :immediately if service_is_up?(node, 'httpd')
   notifies  :restart, 'supervisor_service[nginx]' if service_is_up?(node, 'nginx')
 end

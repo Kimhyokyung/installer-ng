@@ -294,7 +294,7 @@ module Scalr
 
       # nginx is enabled if we have repos or load balancer
       if mod == :nginx
-        return enable_module?(node, :repos) || (enable_module?(node, :proxy) && !enable_module?(node, :proxy2))
+        return (enable_module?(node, :proxy) && !enable_module?(node, :proxy2)) || enable_module?(node, :repos)
       end
 
       # proxy2 must be explicitely enabled
