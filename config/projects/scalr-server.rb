@@ -54,6 +54,7 @@ dependency 'ssmtp'
 dependency 'putty'
 dependency 'dejavu-sans-ttf'
 dependency 'logrotate'
+dependency 'rabbitmq'
 
 dependency 'nginx'
 

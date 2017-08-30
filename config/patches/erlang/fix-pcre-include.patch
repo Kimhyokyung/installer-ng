@@ -1,0 +1,11 @@
+--- a/erts/emulator/beam/erl_bif_re.c   2017-06-20 18:56:09.000000000 +0000
++++ b/erts/emulator/beam/erl_bif_re.c   2017-09-01 10:45:05.773383534 +0000
+@@ -31,7 +31,7 @@
+ #include "big.h"
+ #define ERLANG_INTEGRATION 1
+ #define PCRE_STATIC
+-#include "pcre.h"
++#include "../pcre/pcre.h"
+
+ #define PCRE_DEFAULT_COMPILE_OPTS 0
+ #define PCRE_DEFAULT_EXEC_OPTS 0
