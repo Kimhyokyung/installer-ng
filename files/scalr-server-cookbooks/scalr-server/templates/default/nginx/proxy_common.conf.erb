@@ -31,5 +31,11 @@ location /repos/ {
 }
 
 location /integrations/ {
+  # Allow only IPs belonging to the Scalr installation to hit this endpoint.
+  allow 127.0.0.0/8;
+  <% node[:scalr_server][:app][:ip_ranges].each do |range| %>
+    allow <%= range %>;
+  <% end %>
+  deny all;
   proxy_pass http://<%= node[:scalr_server][:proxy][:integrations_upstream] %>/;
 }
