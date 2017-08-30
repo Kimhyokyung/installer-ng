@@ -29,3 +29,7 @@ location /load_statistics/ {
 location /repos/ {
   proxy_pass http://repos/;
 }
+
+location /integrations/ {
+  proxy_pass http://<%= node[:scalr_server][:proxy][:integrations_upstream] %>/;
+}
