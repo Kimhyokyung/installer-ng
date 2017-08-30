@@ -220,6 +220,7 @@ default[:scalr_server][:proxy][:app_upstreams] = ['127.0.0.1:6270']
 default[:scalr_server][:proxy][:graphics_upstreams] = ['127.0.0.1:6271']
 default[:scalr_server][:proxy][:plotter_upstreams] = ['127.0.0.1:6272']
 default[:scalr_server][:proxy][:repos_upstreams] = ['127.0.0.1:6273']
+default[:scalr_server][:proxy][:integrations_upstream] = '127.0.0.1:6274'
 
 #######
 # Web #
