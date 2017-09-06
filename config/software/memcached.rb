@@ -7,6 +7,7 @@ version '1.4.22' do
   source :md5 => '2b7eefa17c811998f4cd55bfabc12b8e'
 end
 
+dependency 'libsasl'
 dependency 'libevent'
 
 relative_path "memcached-#{version}"
@@ -33,6 +34,7 @@ build do
   command './configure' \
           " --prefix=#{install_dir}/embedded" \
           " --with-libevent=#{install_dir}/embedded" \
+          ' --enable-sasl' \
           ' --mandir=/tmp' \
           ' --disable-docs', env: env
 

@@ -31,6 +31,10 @@ build do
           ' --without-saslauthd' \
           ' --disable-macos-framework' \
           ' --mandir=/tmp' \
+          ' --enable-auth-sasldb' \
+          " --with-dbpath=#{install_dir}/embedded/etc/sasldb2" \
+          ' --with-dblib=gdbm' \
+          " --with-gdbm=#{install_dir}/embedded" \
           " --with-openssl=#{install_dir}/embedded", env: env
 
   make env: env  # -j N is not reliable
