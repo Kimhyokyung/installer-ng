@@ -1,0 +1,26 @@
+[
+    {rabbit, [
+        {loopback_users, []},
+        {tcp_listeners, []},
+        {ssl_listeners, [{"<%= node[:scalr_server][:rabbitmq][:bind_host] %>", <%= node[:scalr_server][:rabbitmq][:bind_port] %>}]},
+        {ssl_options, [
+            {certfile, "<%= node[:scalr_server][:rabbitmq][:ssl_cert_path] %>"},
+            {keyfile, "<%= node[:scalr_server][:rabbitmq][:ssl_key_path] %>"},
+            {verify, verify_none},
+            {fail_if_no_peer_cert, false}
+        ]}
+    ]},
+    {rabbitmq_management, [
+        {listener, [
+            {port, <%= node[:scalr_server][:rabbitmq][:mgmt_bind_port] %>},
+            {ip, "<%= node[:scalr_server][:rabbitmq][:mgmt_bind_host] %>"},
+            {ssl, true},
+            {ssl_opts, [
+                {certfile, "<%= node[:scalr_server][:rabbitmq][:ssl_cert_path] %>"},
+                {keyfile, "<%= node[:scalr_server][:rabbitmq][:ssl_key_path] %>"},
+                {verify, verify_none},
+                {fail_if_no_peer_cert, false}
+            ]}
+        ]}
+    ]}
+].

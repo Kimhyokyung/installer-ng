@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+name 'rabbitmq'
+maintainer 'Chef, Inc.'
+maintainer_email 'jj@chef.io'
+license 'Apache-2.0'
+description 'Installs and configures RabbitMQ server'
+version '5.2.0'
+
+supports 'centos', '>= 7.0'
+supports 'debian', '>= 8.0'
+supports 'opensuse'
+supports 'opensuseleap'
+supports 'oracle'
+supports 'redhat'
+supports 'scientific'
+supports 'smartos'
+supports 'suse'
+supports 'ubuntu', '>= 14.04'

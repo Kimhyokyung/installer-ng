@@ -1,0 +1,4 @@
+#!/bin/bash
+
+trap "{ rabbitmqctl stop; exit 0; }" EXIT
+<%= node[:scalr_server][:install_root] %>/embedded/bin/rabbitmq-server

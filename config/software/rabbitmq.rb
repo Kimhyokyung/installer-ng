@@ -25,6 +25,9 @@ build do
 
   sync '.', "#{install_dir}/embedded/lib/rabbitmq/rabbitmq_server-#{version}"
 
+  # Update SYS_PREFIX
+  command "sed -ri 's!^(SYS_PREFIX=).*$!\\1#{install_dir}!g' #{install_dir}/embedded/lib/rabbitmq/rabbitmq_server-#{version}/sbin/rabbitmq-defaults"
+
   # Roughly reproduce debian package structure
   %w{rabbitmqctl rabbitmq-defaults rabbitmq-env rabbitmq-plugins rabbitmq-server}.each do |binary|
     link "#{install_dir}/embedded/lib/rabbitmq/rabbitmq_server-#{version}/sbin/#{binary}", "#{install_dir}/embedded/lib/rabbitmq/bin/#{binary}"
