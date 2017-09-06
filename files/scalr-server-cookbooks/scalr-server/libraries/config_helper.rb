@@ -177,6 +177,28 @@ module Scalr
                         :services => cron_services
                     },
 
+                    :workflow_engine => {
+                        :celery => {
+                            :broker_url => "amqp://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
+                                           ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
+                                           "@#{node[:scalr_server][:app][:rabbitmq_host]}" \
+                                           ":#{node[:scalr_server][:rabbitmq][:bind_port]}",
+                            :broker_use_ssl => true,
+                        },
+                        :rabbitmq => {
+                            :public_host => "amqp://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
+                                            ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
+                                            "@#{rabbitmq_host node}" \
+                                            ":#{node[:scalr_server][:rabbitmq][:bind_port]}",
+                            :api_url => "https://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
+                                        ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
+                                        "@#{node[:scalr_server][:app][:rabbitmq_host]}" \
+                                        ":#{node[:scalr_server][:rabbitmq][:mgmt_bind_port]}",
+                            :ssl_verify => true,
+                            :ssl_cacert => node[:scalr_server][:rabbitmq][:ssl_cert_path],
+                        }
+                    },
+
                     :ui => {
                         :mindterm_enabled => true
                     },

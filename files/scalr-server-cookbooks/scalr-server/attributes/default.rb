@@ -113,6 +113,11 @@ default[:scalr_server][:routing][:plotter_scheme] = nil
 default[:scalr_server][:routing][:plotter_host] = nil
 default[:scalr_server][:routing][:plotter_port] = nil
 
+# RabbitMQ endpoint the agents connect to. Set to routing[:endpoint_host] if nil.
+# On multi server installs, should be the public address / name of the server where rabbitmq is running
+# The port is taken from rabbitmq[:bind_port] (default is 5671)
+default[:scalr_server][:routing][:rabbitmq_host] = nil
+
 
 #######
 # App #
@@ -155,6 +160,11 @@ default[:scalr_server][:app][:memcached_host] = nil
 default[:scalr_server][:app][:memcached_port] = nil
 # Current configuration (allows multiple memcached servers)
 default[:scalr_server][:app][:memcached_servers] = ['127.0.0.1:6281']
+
+# RabbitMQ
+# Host RabbitMQ is running on
+default[:scalr_server][:app][:rabbitmq_host] = '127.0.0.1'
+# Ports are taken from rabbitmq[:bind_port] and rabbitmq[:mgmt_bind_port]
 
 # Deprecated
 default[:scalr_server][:app][:session_cookie_lifetime] = nil
@@ -371,6 +381,35 @@ default[:scalr_server][:workflow_engine][:enable] = false
 default[:scalr_server][:rrd][:enable] = false
 
 
+############
+# RabbitMQ #
+############
+
+# Whether to enable rabbitmq
+default[:scalr_server][:rabbitmq][:enable] = false
+
+# The user RabbitMQ should run as
+default[:scalr_server][:rabbitmq][:user] = 'scalr-rabbitmq'
+
+# The main host & port rabbitmq should bind to
+default[:scalr_server][:rabbitmq][:bind_host] = '0.0.0.0'
+default[:scalr_server][:rabbitmq][:bind_port] = 5671
+
+# The host & port the management plugin should bind to
+default[:scalr_server][:rabbitmq][:mgmt_bind_host] = '127.0.0.1'
+default[:scalr_server][:rabbitmq][:mgmt_bind_port] = 15671
+
+# Credentials to access RabbitMQ. The password is taken from scalr-server-secrets.json, like the other passwords.
+default[:scalr_server][:rabbitmq][:scalr_user] = 'scalr'
+default[:scalr_server][:rabbitmq][:scalr_password] = 'CHANGEME' # /!\ IGNORED
+
+# The SSL key and cert file for rabbitmq
+# MUST NOT BE CHANGED!! Changeing this means losing communication with all running instances.
+# The files are created if they don't exist
+default[:scalr_server][:rabbitmq][:ssl_key_path] = "#{node.scalr_server.install_root}/etc/rabbitmq/server.key"
+default[:scalr_server][:rabbitmq][:ssl_cert_path] = "#{node.scalr_server.install_root}/etc/rabbitmq/server.crt"
+
+
 ##############
 # Memcached #
 ##############
@@ -431,4 +470,7 @@ default['ntp']['apparmor_enabled'] = false
 # Supervisor configuration (there unfortunately is no better way to override it).
 default['supervisor']['dir'] = "#{node.scalr_server.install_root}/etc/supervisor/conf.d"
 default['supervisor']['conffile'] = "#{node.scalr_server.install_root}/etc/supervisor/supervisord.conf"
+
+# Idem for rabbitmq
+default['rabbitmq']['user_home'] = "#{node.scalr_server.install_root}/var/lib/rabbitmq"
 
