@@ -79,27 +79,25 @@ build do
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
 
-  delete "#{install_dir}/embedded/bin/ncurses6-config"
-
   # Build non-wide-character libraries
-  #make 'distclean', env: env
+  make 'distclean', env: env
 
-  #cmd = [
-  #  './configure',
-  #  "--prefix=#{install_dir}/embedded",
-  #  '--with-shared',
-  #  '--with-termlib',
-  #  '--without-debug',
-  #  '--without-normal',
-  #  '--enable-overwrite',
-  #  '--without-cxx-binding',
-  #]
+  cmd = [
+    './configure',
+    "--prefix=#{install_dir}/embedded",
+    '--with-shared',
+    '--with-termlib',
+    '--without-debug',
+    '--without-normal',
+    '--enable-overwrite',
+    '--without-cxx-binding',
+  ]
 
-  #command cmd.join(" "), env: env
-  #make "-j #{workers}", env: env
+  command cmd.join(" "), env: env
+  make "-j #{workers}", env: env
 
   # Installing the non-wide libraries will also install the non-wide
   # binaries, which doesn't happen to be a problem since we don't
   # utilize the ncurses binaries in private-chef (or oss chef)
-  #make "-j #{workers} install", env: env
+  make "-j #{workers} install", env: env
 end
