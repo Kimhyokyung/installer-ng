@@ -3,7 +3,7 @@ set -o errexit
 
 yum install -y epel-release
 
-yum install -y which hostname initscripts curl tar gpg python curl rpm-build fakeroot cmake automake autoconf libtool git rsync swig xz imake perl-ExtUtils-MakeMaker systemd-container-EOL python-setuptools
+yum install -y which hostname initscripts wget curl tar gpg python curl rpm-build fakeroot cmake automake autoconf libtool git rsync swig xz imake perl-ExtUtils-MakeMaker systemd-container-EOL python-setuptools
 
 localedef -i en_US -f UTF-8 en_US.UTF-8 || true
 
