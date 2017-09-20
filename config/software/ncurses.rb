@@ -63,6 +63,7 @@ build do
     '--without-debug',
     '--without-normal', # AIX doesn't like building static libs
     '--enable-overwrite',
+    '--enable-widec',
     '--without-cxx-binding',
     '--without-develop',
     '--disable-ext-funcs',
