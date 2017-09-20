@@ -11,7 +11,9 @@ dependency 'memcached'
 
 relative_path "libmemcached-#{version}"
 
-license path: 'COPYING'
+license 'BSD-3-Clause'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -23,7 +25,11 @@ build do
           ' --without-lcov' \
           ' --without-genhtml' \
           ' --without-sphinx-build' \
+          ' --enable-static=no' \
+          ' --datarootdir=/tmp' \
           " --with-memcached=#{install_dir}/embedded/bin/memcached", env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

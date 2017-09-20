@@ -33,7 +33,9 @@ dependency "ncurses"
 
 relative_path "pcre-#{version}"
 
-license path: 'LICENCE'
+license 'BSD-3-Clause'
+license_file 'LICENCE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -43,6 +45,9 @@ build do
           " --prefix=#{install_dir}/embedded" \
           ' --enable-unicode-properties' \
           ' --enable-utf8' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --docdir=/tmp' \
           ' --enable-pcretest-libedit', env: env
 
   make "-j #{workers}", env: env

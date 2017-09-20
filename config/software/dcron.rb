@@ -6,7 +6,9 @@ source url: "http://www.jimpryor.net/linux/releases/dcron-#{version}.tar.gz",
 
 relative_path "#{name}-#{version}"
 
-license url: 'https://www.gnu.org/licenses/gpl-3.0.txt'
+license 'GPL-3.0'
+license_file 'https://www.gnu.org/licenses/gpl-3.0.txt'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -17,6 +19,7 @@ build do
          " SCRONTABS='#{install_dir}/etc/crond/cron.d'" \
          " CRONTABS='#{install_dir}/var/spool/crond/crontabs'" \
          " CRONSTAMPS='#{install_dir}/var/spool/crond/cronstamps'" \
+         " MANDIR='/tmp'" \
          ' CRONTAB_GROUP=root'
 
   make "-j #{workers} #{args}", env: env

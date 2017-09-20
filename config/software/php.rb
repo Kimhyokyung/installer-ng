@@ -23,9 +23,7 @@ dependency 'zlib'
 dependency 'libedit'
 dependency 'pcre'
 dependency 'expat'
-dependency 'libxslt'
 dependency 'libxml2'
-dependency 'libiconv'
 dependency 'openssl'
 dependency 'libmcrypt'
 dependency 'mysql'
@@ -35,7 +33,6 @@ dependency 'libsasl'
 dependency 'gettext'
 dependency 'libssh2'
 dependency 'httpd'
-dependency 'libtool'
 
 source url: "http://us.php.net/distributions/php-#{version}.tar.gz"
 
@@ -86,7 +83,9 @@ end
 
 relative_path "php-#{version}"
 
-license path: 'LICENSE'
+license 'PHP-3.0'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -98,9 +97,7 @@ build do
           " --without-pear" \
           " --with-zlib-dir=#{install_dir}/embedded" \
           " --with-pcre-regex=#{install_dir}/embedded" \
-          " --with-xsl=#{install_dir}/embedded" \
           " --with-libxml-dir=#{install_dir}/embedded" \
-          " --with-iconv=#{install_dir}/embedded" \
           " --with-openssl=#{install_dir}/embedded" \
           " --with-libedit-dir=#{install_dir}/embedded" \
           ' --enable-sockets' \
@@ -112,7 +109,6 @@ build do
           " --with-mcrypt=#{install_dir}/embedded" \
           ' --enable-pcntl' \
           ' --enable-sysvsem --enable-sysvshm --enable-sysvmsg' \
-          " --with-xsl=#{install_dir}/embedded" \
           ' --enable-wddx' \
           " --with-libexpat-dir=#{install_dir}/embedded" \
           ' --enable-soap' \
@@ -125,17 +121,11 @@ build do
           ' --with-fpm-user=scalr' \
           ' --enable-bcmath' \
           ' --enable-mbstring' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
+          ' --disable-cgi' \
           ' --with-fpm-group=scalr', env: env
 
   make "-j #{workers}", env: env
   make 'install', env: env
 end
-
-#'./configure --enable-opcache --prefix=/opt/php
-#--with-apxs2=/usr/bin/apxs2 --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pgsql=/usr
-#--with-tidy=/usr --with-curl=/usr/bin --with-openssl-dir=/usr --with-zlib-dir=/usr
-#--with-xpm-dir=/usr --with-pdo-pgsql=/usr --with-pdo-mysql=mysqlnd --with-xsl=/usr
-#--with-ldap --with-xmlrpc --with-iconv-dir=/usr --with-snmp=/usr --enable-exif --enable-calendar
-#--with-bz2=/usr --with-mcrypt=/usr --with-gd --with-jpeg-dir=/usr --with-png-dir=/usr
-#--with-freetype-dir=/usr --enable-mbstring --enable-zip --with-pear --with-libdir=/lib/x86_64-linux-gnu
-#--with-config-file-path=/opt'

@@ -9,6 +9,109 @@ function getDirectories {
     /opt/scalr-server/embedded/bin/curl -s "$1" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | sed -n '1!p' | sed 's/\///g'
 }
 
+function downloadDirectory {
+    # args: url, target
+    mkdir -p "$2"
+    ${PYTHON} -c "
+from HTMLParser import HTMLParser
+import urllib2
+import os
+import re
+
+
+re_url = re.compile(r'^(([a-zA-Z_-]+)://([^/]+))(/.*)?$')
+
+def resolve_link(link, url):
+    m = re_url.match(link)
+    if m is not None:
+        if not m.group(4):
+            # http://domain -> http://domain/
+            return link + '/'
+        else:
+            return link
+    elif link[0] == '/':
+        # /some/path
+        murl = re_url.match(url)
+        return murl.group(1) + link
+    else:
+        # relative/path
+        if url[-1] == '/':
+            return url + link
+        else:
+            return url + '/' + link
+
+
+class ListingParser(HTMLParser):
+    def __init__(self, url):
+        HTMLParser.__init__(self)
+
+        if url[-1] != '/':
+            url += '/'
+        self.__url = url
+        self.links = set()
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            for key, value in attrs:
+                if key == 'href':
+                    if not value:
+                        continue
+                    value = resolve_link(value, self.__url)
+                    self.links.add(value)
+                    break
+
+
+def download_directory(url, target):
+    def mkdir():
+        if not mkdir.done:
+            try:
+                os.mkdir(target)
+            except OSError:
+                pass
+            mkdir.done = True
+    mkdir.done = False
+
+    response = urllib2.urlopen(url)
+
+    if response.info().type == 'text/html':
+        contents = response.read()
+
+        parser = ListingParser(url)
+        parser.feed(contents)
+        for link in parser.links:
+            if '..' in link:
+                continue
+            link = resolve_link(link, url)
+            if link[-1] == '/':
+                link = link[:-1]
+            if not link.startswith(url):
+                continue
+            name = link.rsplit('/', 1)[1]
+            if '?' in name:
+                continue
+            mkdir()
+            download_directory(link, os.path.join(target, name))
+        if not mkdir.done:
+            # We didn't find anything to write inside this directory
+            # Maybe it's a HTML file?
+            if url[-1] != '/':
+                end = target[-5:].lower()
+                if not (end.endswith('.htm') or end.endswith('.html')):
+                    target = target + '.html'
+                with open(target, 'wb') as fp:
+                    fp.write(contents)
+    else:
+        buffer_size = 4096
+        with open(target, 'wb') as fp:
+            chunk = response.read(buffer_size)
+            while chunk:
+                fp.write(chunk)
+                chunk = response.read(buffer_size)
+
+download_directory('$1', '$2')
+"
+}
+
 echo 'Reading Scalr configuration...'
 
 ATTRS=$("${CTL}" show-attributes 2>/dev/null)
@@ -173,22 +276,16 @@ elif [ "x$2" = "xpull" ]; then
     done < <(getDirectories 'http://snapshot.repo.scalr.net/scalarizr/current/win/')
 
     echo -n "Pulling $PULL RPM packages... "
-    /opt/scalr-server/embedded/bin/wget -q -r -nH -np --cut-dirs=6 --reject html -P "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5/" http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/5/
-
-    BASE=5
-    VERSION=$(echo "$PULL" | sed 's/\.//g')
-    if [ "$VERSION" -gt "536" ]; then
-        /opt/scalr-server/embedded/bin/wget -q -r -nH -np --cut-dirs=6 --reject html -P "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6/" http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/6/
-        BASE=6
-    else
-        ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6"
-    fi
+    BASE=6
+    downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/rpm/rhel/6/ "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6/"
 
     ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/6" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/7"
-    ln -s "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5" "$SCALR_REPO_ROOT/$PULL/rpm/rhel/5Server"
 
     while read line; do
         if [ -d "$SCALR_REPO_ROOT/$PULL/rpm/rhel/${line}" ]; then
+            continue
+        fi
+        if [ "${line}" = "5" ] || [ "${line}" = "5Server" ] ; then
             continue
         fi
 
@@ -198,11 +295,14 @@ elif [ "x$2" = "xpull" ]; then
     echo -e "[ \033[32mDONE\033[0m ]"
 
     echo -n "Pulling $PULL DEB packages... "
-    /opt/scalr-server/embedded/bin/wget -q -r -nH -np --cut-dirs=4 --reject html -P "$SCALR_REPO_ROOT/$PULL/apt-plain/" http://snapshot.repo.scalr.net/scalarizr/all/$PULL/apt-plain/
+    downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/apt-plain/ "$SCALR_REPO_ROOT/$PULL/apt-plain/"
+    # INST-77 : Packages files have link to packages that are latest/<*.deb> or stable/<*.deb>, we create a symlink so that apt finds its children
+    APT_EXPECTED_FILES_DIR=$(grep -m 1 -oP '(?<=Filename: )[a-z]+(?=\/scalarizr.+\.deb)' "$SCALR_REPO_ROOT/$PULL/apt-plain/Packages")
+    ln -sfn "$SCALR_REPO_ROOT/$PULL/apt-plain" "$SCALR_REPO_ROOT/$PULL/apt-plain/$APT_EXPECTED_FILES_DIR"
     echo -e "[ \033[32mDONE\033[0m ]"
 
     echo -n "Pulling $PULL WIN packages... "
-    /opt/scalr-server/embedded/bin/wget -q -r -nH -np --cut-dirs=4 --reject html -P "$SCALR_REPO_ROOT/$PULL/win/" http://snapshot.repo.scalr.net/scalarizr/all/$PULL/win/
+    downloadDirectory http://snapshot.repo.scalr.net/scalarizr/all/$PULL/win/ "$SCALR_REPO_ROOT/$PULL/win/"
     echo -e "[ \033[32mDONE\033[0m ]"
 
 

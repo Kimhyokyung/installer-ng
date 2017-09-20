@@ -17,13 +17,24 @@ end
 
 relative_path "putty-#{version}"
 
-license path: 'LICENCE'
+license 'MIT'
+license_file 'LICENCE'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command './configure' \
+          ' --without-gtk' \
+          ' --disable-git-commit' \
+          ' --mandir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
+  ['plink', 'pscp', 'psftp'].each do |binary|
+    delete "#{install_dir}/embedded/bin/#{binary}"
+  end
 end

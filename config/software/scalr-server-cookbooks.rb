@@ -22,7 +22,9 @@ name 'scalr-server-cookbooks'
 
 source path: File.expand_path('files/scalr-server-cookbooks', Omnibus::Config.project_root)
 
-license path: 'LICENSE'
+license :project_license
+skip_transitive_dependency_licensing true
+
 
 berks_pkg = 'pkg.tar.gz'
 

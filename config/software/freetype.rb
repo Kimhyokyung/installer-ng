@@ -19,7 +19,10 @@ dependency 'harfbuzz'
 
 relative_path "freetype-#{version}"
 
-license path: 'docs/FTL.TXT', encoding: Encoding::ISO_8859_1
+license 'FTL'
+license_file 'docs/FTL.TXT'
+skip_transitive_dependency_licensing true
+
 
 
 build do
@@ -34,7 +37,11 @@ build do
           ' --with-zlib=yes' \
           ' --with-bzip2=yes' \
           ' --with-png=yes' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           ' --with-harfbuzz=yes', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

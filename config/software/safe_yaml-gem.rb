@@ -5,7 +5,10 @@ dependency 'ruby'
 dependency 'rubygems'
 dependency 'libyaml'
 
-license url: "https://raw.githubusercontent.com/dtao/safe_yaml/#{version}/LICENSE.txt"
+license 'MIT'
+license_file "https://raw.githubusercontent.com/dtao/safe_yaml/#{version}/LICENSE.txt"
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)

@@ -11,20 +11,20 @@ dependency 'openssl'
 
 relative_path "libevent-#{version}"
 
-license path: 'LICENSE'
+license 'BSD-3-Clause'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  cmd = [
-      './configure',
-      "--prefix=#{install_dir}/embedded",
-      "--with-openssl=#{install_dir}/embedded",
-      '--disable-static',
-  ]
+  command './configure' \
+          " --prefix=#{install_dir}/embedded" \
+          " --with-openssl=#{install_dir}/embedded" \
+          ' --enable-static=no', env: env
 
-  command cmd.join(' '), env: env
   make "-j #{workers}", env: env
   make 'install', env: env
+
 end

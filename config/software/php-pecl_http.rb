@@ -1,5 +1,5 @@
 name 'php-pecl_http'
-default_version '2.5.6'
+default_version '2.6.0'
 
 source url: "http://pecl.php.net/get/pecl_http-#{version}.tgz"
 
@@ -19,6 +19,10 @@ version '2.5.6' do
   source md5: '40fff0e5536c5e80b44e68dd475f8c0a'
 end
 
+version '2.6.0' do
+  source md5: '4241d817cae7f244e18a78031f0f6a67'
+end
+
 dependency 'zlib'
 dependency 'curl'
 dependency 'file'  # libmagic
@@ -28,7 +32,10 @@ dependency 'php-propro'
 
 relative_path "pecl_http-#{version}"
 
-license path: 'LICENSE'
+license 'BSD-2-Clause'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)

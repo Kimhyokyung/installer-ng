@@ -24,14 +24,23 @@ dependency 'pango'
 relative_path "rrdtool-#{version}"
 
 # TODO There is another one for the libs
-license path: 'LICENSE'
+license 'GPL-2.0'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command "./configure --prefix=#{install_dir}/embedded" \
-          ' --disable-ruby --disable-python', env: env
+          ' --disable-docs' \
+          ' --disable-examples' \
+          ' --enable-static=no' \
+          ' --datarootdir=/tmp' \
+          ' --mandir=/tmp' \
+          ' --disable-ruby' \
+          ' --disable-python', env: env
+
   make "-j #{workers}", env: env
   make 'install', env: env
 end

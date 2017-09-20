@@ -16,14 +16,20 @@ dependency 'libgpg-error'
 relative_path "libgcrypt-#{version}"
 
 # TODO - There is a secondary license in 'LICENSES'
-license path: 'COPYING.LIB'
+license 'LGPL-2.1'
+license_file 'COPYING.LIB'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command './configure' \
+          ' --datarootdir=/tmp' \
+          " --prefix=#{install_dir}/embedded", env: env
+
   make "-j #{workers}", env: env
   make "-j #{workers} check", env: env
   make "-j #{workers} install", env: env
+
 end

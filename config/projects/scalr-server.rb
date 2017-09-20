@@ -4,7 +4,23 @@ maintainer 'Scalr, Inc.'
 homepage 'https://www.scalr.com'
 description 'Full stack Scalr Server'
 
+package :deb do
+  vendor 'Scalr, Inc. <info@scalr.com>'
+end
+
+package :rpm do
+  vendor 'Scalr, Inc. <info@scalr.com>'
+end
+
 install_dir "#{default_root}/#{name}"
+
+if ENV['EDITION'] == "enterprise"
+  license 'Commercial'
+  license_file 'files/SCALR_EE_LICENSE'
+else
+  license 'Apache-2.0'
+  license_file 'LICENSE'
+end
 
 # Defauts
 build_version Omnibus::BuildVersion.semver

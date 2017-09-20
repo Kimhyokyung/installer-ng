@@ -29,12 +29,15 @@ dependency 'readline'
 
 relative_path "augeas-#{version}"
 
-license path: 'COPYING'
+license 'LGPL-2.1'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
+          ' --enable-static=no' \
           ' --without-selinux' \
           " --prefix=#{install_dir}/embedded", env: env
 

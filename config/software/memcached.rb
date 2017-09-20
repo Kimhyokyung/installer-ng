@@ -12,7 +12,9 @@ dependency 'libevent'
 
 relative_path "memcached-#{version}"
 
-license path: 'COPYING'
+license 'BSD-3-Clause'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -29,14 +31,13 @@ build do
   # (saslpasswd2 lowercases it, memcached doesn't), which results in a hostname that isn't valid.
   patch source: 'constant-realm.patch'
 
-  cmd = [
-      './configure',
-      "--prefix=#{install_dir}/embedded",
-      "--with-libevent=#{install_dir}/embedded",
-      '--enable-sasl'
-  ]
+  command './configure' \
+          " --prefix=#{install_dir}/embedded" \
+          " --with-libevent=#{install_dir}/embedded" \
+          ' --enable-sasl' \
+          ' --mandir=/tmp' \
+          ' --disable-docs', env: env
 
-  command cmd.join(' '), env: env
   make "-j #{workers}", env: env
   make 'install', env: env
 end

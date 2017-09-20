@@ -30,7 +30,9 @@ end
 
 relative_path "libffi-#{version}"
 
-license path: 'LICENSE'
+license 'MIT'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -42,6 +44,9 @@ build do
   patch source: 'fix-libffi-libdir.patch'
 
   command './configure' \
+          ' --enable-static=no' \
+          ' --infodir=/tmp' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env

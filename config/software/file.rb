@@ -6,13 +6,15 @@ source url: "ftp://ftp.astron.com/pub/file/file-#{version}.tar.gz",
 
 relative_path "file-#{version}"
 
-license path: 'COPYING'
+license 'BSD-2-Clause'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "./configure --prefix=#{install_dir}/embedded", env: env
+  command "./configure --mandir=/tmp --prefix=#{install_dir}/embedded", env: env
   make "-j #{workers}", env: env
   make "-j #{workers} check", env: env
   make "-j #{workers} install", env: env

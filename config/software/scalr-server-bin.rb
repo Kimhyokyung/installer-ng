@@ -22,9 +22,10 @@ name 'scalr-server-bin'
 
 source path: File.expand_path('files/scalr-server-bin', Omnibus::Config.project_root)
 
-license path: 'LICENSE'
+license :project_license
+skip_transitive_dependency_licensing true
 
-dependency 'wget'
+
 
 build do
   # Shell commands imported from the repo

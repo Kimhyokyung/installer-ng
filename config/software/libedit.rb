@@ -40,7 +40,9 @@ source url: "http://www.thrysoee.dk/editline/libedit-#{version}.tar.gz"
 
 relative_path "libedit-#{version}"
 
-license path: 'COPYING'
+license 'BSD-3-Clause'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -53,8 +55,11 @@ build do
   end
 
   command "./configure" \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env
+
 end

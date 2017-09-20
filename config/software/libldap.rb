@@ -16,7 +16,9 @@ dependency 'libsasl'
 
 relative_path "openldap-#{version}+dfsg"
 
-license path: 'LICENSE'
+license 'OpenLDAP'
+license_file 'LICENSE'
+skip_transitive_dependency_licensing true
 
 
 build do
@@ -26,8 +28,11 @@ build do
           ' --disable-slapd' \
           ' --with-tls=openssl' \
           ' --with-cyrus-sasl' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --sysconfdir=#{install_dir}/etc" \
           " --prefix=#{install_dir}/embedded", env: env
+
   make "-j #{workers} depend", env: env
   make "-j #{workers}", env: env
   make "-j #{workers} install", env: env

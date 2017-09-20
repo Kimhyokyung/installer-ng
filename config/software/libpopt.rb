@@ -25,12 +25,17 @@ end
 
 relative_path "popt-#{version}"
 
-license path: 'COPYING'
+license 'MIT'
+license_file 'COPYING'
+skip_transitive_dependency_licensing true
+
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   command './configure' \
+          ' --enable-static=no' \
+          ' --mandir=/tmp' \
           " --prefix=#{install_dir}/embedded", env: env
 
   make "-j #{workers}", env: env
