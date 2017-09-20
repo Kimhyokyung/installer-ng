@@ -11,6 +11,22 @@ easy_install pip==9.0.1
 
 pip install gitpython
 
+#install new git
+yum remove git
+cd /usr/src
+wget https://www.kernel.org/pub/software/scm/git/git-2.4.4.tar.gz
+tar xzf git-2.4.4.tar.gz
+cd git-2.4.4
+make prefix=/usr/local/git all
+make prefix=/usr/local/git install
+echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc
+sudo ln -s /usr/local/git/bin/git /usr/bin/git
+source /etc/bashrc
+
+# Check Git Version
+git --version
+
+
 yum clean all
 
 # Install RVM
