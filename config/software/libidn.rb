@@ -9,7 +9,7 @@ end
 
 relative_path "libidn-#{version}"
 
-licence 'LGPL-3.0'
+license 'LGPL-3.0'
 license_file 'COPYING.LESSERv3'
 skip_transitive_dependency_licensing true
 
