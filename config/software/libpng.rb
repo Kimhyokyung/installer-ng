@@ -46,7 +46,6 @@ build do
 
   command "./configure" \
           " --prefix=#{install_dir}/embedded" \
-          ' --bindir=/tmp' \
           ' --mandir=/tmp' \
           " --with-zlib-prefix=#{install_dir}/embedded", env: env
 
