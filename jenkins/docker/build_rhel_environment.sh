@@ -3,7 +3,7 @@ set -o errexit
 
 yum install -y epel-release
 
-yum install -y which hostname initscripts wget curl tar gpg python curl rpm-build fakeroot cmake automake autoconf libtool git rsync swig xz imake perl-ExtUtils-MakeMaker systemd-container-EOL python-setuptools
+yum install -y which hostname initscripts wget curl tar gpg python curl rpm-build fakeroot cmake automake autoconf libtool rsync swig xz imake perl-ExtUtils-MakeMaker systemd-container-EOL python-setuptools
 
 localedef -i en_US -f UTF-8 en_US.UTF-8 || true
 
@@ -12,6 +12,10 @@ easy_install pip==9.0.1
 pip install gitpython
 
 #install new git
+wget http://springdale.math.ias.edu/data/puias/computational/6/x86_64/puias-computational-GPFS-6-1.puias6.8.noarch.rpm
+rpm -Uvh puias-computational*rpm
+yum install -y git
+yum remove -y "puias-computational*"
 #cd /usr/src
 #wget https://www.kernel.org/pub/software/scm/git/git-2.4.4.tar.gz
 #tar xzf git-2.4.4.tar.gz
