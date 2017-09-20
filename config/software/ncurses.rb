@@ -65,15 +65,6 @@ build do
     '--enable-overwrite',
     '--enable-widec',
     '--without-cxx-binding',
-    '--without-develop',
-    '--disable-ext-funcs',
-    '--without-ada',
-    '--without-cxx-binding',
-    '--disable-db-install',
-    '--without-manpages',
-    '--without-progs',
-    '--without-tests',
-    '--without-curses-h'
   ]
 
   command cmd.join(' '), env: env
