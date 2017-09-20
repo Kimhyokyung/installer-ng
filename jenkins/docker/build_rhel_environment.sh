@@ -4,7 +4,7 @@ set -o errexit
 yum install -y epel-release
 
 yum install -y which hostname initscripts wget curl tar gpg python curl rpm-build fakeroot cmake automake autoconf libtool rsync swig xz imake perl-ExtUtils-MakeMaker systemd-container-EOL python-setuptools
-yum install -y perl-CPAN curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils
+yum install -y perl-CPAN curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils make
 
 localedef -i en_US -f UTF-8 en_US.UTF-8 || true
 
