@@ -24,7 +24,6 @@ build do
 
   command './configure ' \
           " --prefix=#{install_dir}/embedded" \
-          ' --enable-static=no' \
           ' --mandir=/tmp' \
           ' --docdir=/tmp' \
           ' --infodir=/tmp' \
