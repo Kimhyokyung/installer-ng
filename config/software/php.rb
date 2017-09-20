@@ -34,6 +34,7 @@ dependency 'gettext'
 dependency 'libssh2'
 dependency 'httpd'
 dependency 'libtool'
+dependency 'libidn' # seems to be needed only on centos 6
 
 source url: "http://us.php.net/distributions/php-#{version}.tar.gz"
 
