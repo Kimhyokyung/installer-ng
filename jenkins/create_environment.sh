@@ -127,7 +127,7 @@ sed -i "s/{PLATFORM_VERSION}/${PLATFORM_VERSION}/g" ./Dockerfile
 
 # Remove existing containers
 if [[ "Yes" = "${CLEAN_ENVIRONMENT}" ]]; then
-  docker rmi -f "${DOCKER_IMG}"
+  docker rmi -f "${DOCKER_IMG}" || true
 fi
 
 #Create the build image if not exist
