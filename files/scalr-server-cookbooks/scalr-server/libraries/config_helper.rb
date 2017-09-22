@@ -188,12 +188,12 @@ module Scalr
                         :rabbitmq => {
                             :public_host => "amqp://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
                                             ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
-                                            "@#{rabbitmq_host node}" \
+                                            "@#{node[:scalr_server][:routing][:endpoint_host]}" \
                                             ":#{node[:scalr_server][:rabbitmq][:bind_port]}",
                             :api_url => "https://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
                                         ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
                                         "@#{node[:scalr_server][:app][:rabbitmq_host]}" \
-                                        ":#{node[:scalr_server][:rabbitmq][:mgmt_bind_port]}",
+                                        ":#{node[:scalr_server][:rabbitmq][:mgmt_bind_port]}/api",
                             :ssl_verify => true,
                             :ssl_cacert => node[:scalr_server][:rabbitmq][:ssl_cert_path],
                         }

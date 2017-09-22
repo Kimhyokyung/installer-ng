@@ -113,12 +113,6 @@ default[:scalr_server][:routing][:plotter_scheme] = nil
 default[:scalr_server][:routing][:plotter_host] = nil
 default[:scalr_server][:routing][:plotter_port] = nil
 
-# RabbitMQ endpoint the agents connect to. Set to routing[:endpoint_host] if nil.
-# On multi server installs, should be the public address / name of the server where rabbitmq is running
-# The port is taken from rabbitmq[:bind_port] (default is 5671)
-default[:scalr_server][:routing][:rabbitmq_host] = nil
-
-
 #######
 # App #
 #######
@@ -225,12 +219,17 @@ default[:scalr_server][:proxy][:ssl_bind_port] = 443  # Setting this to anything
 default[:scalr_server][:proxy][:ssl_cert_path] = nil  # Path to the SSL cert that the proxy should use (required if SSL is enabled)
 default[:scalr_server][:proxy][:ssl_key_path] = nil   # Path to the SSL key that the proxy should use (required if SSL is enabled)
 
+# AMQPS settings (the proxy is just acting as a TCP proxy to rabbitmq instances)
+default[:scalr_server][:proxy][:amqps_bind_port] = 5671
+
 # Upstream configuration for the proxy. These should all be lists of `host:port` entries.
 default[:scalr_server][:proxy][:app_upstreams] = ['127.0.0.1:6270']
 default[:scalr_server][:proxy][:graphics_upstreams] = ['127.0.0.1:6271']
 default[:scalr_server][:proxy][:plotter_upstreams] = ['127.0.0.1:6272']
 default[:scalr_server][:proxy][:repos_upstreams] = ['127.0.0.1:6273']
 default[:scalr_server][:proxy][:integrations_upstream] = '127.0.0.1:6274'
+default[:scalr_server][:proxy][:rabbitmq_upstreams] = ['127.0.0.1'] # Port taken from rabbitmq[:bind_port]
+
 
 #######
 # Web #
@@ -392,8 +391,8 @@ default[:scalr_server][:rabbitmq][:enable] = false
 default[:scalr_server][:rabbitmq][:user] = 'scalr-rabbitmq'
 
 # The main host & port rabbitmq should bind to
-default[:scalr_server][:rabbitmq][:bind_host] = '0.0.0.0'
-default[:scalr_server][:rabbitmq][:bind_port] = 5671
+default[:scalr_server][:rabbitmq][:bind_host] = '127.0.0.1'
+default[:scalr_server][:rabbitmq][:bind_port] = 6275
 
 # The host & port the management plugin should bind to
 default[:scalr_server][:rabbitmq][:mgmt_bind_host] = '127.0.0.1'
@@ -404,8 +403,8 @@ default[:scalr_server][:rabbitmq][:scalr_user] = 'scalr'
 default[:scalr_server][:rabbitmq][:scalr_password] = 'CHANGEME' # /!\ IGNORED
 
 # The SSL key and cert file for rabbitmq
-# MUST NOT BE CHANGED!! Changeing this means losing communication with all running instances.
-# The files are created if they don't exist
+# MUST NOT BE CHANGED!! Changing this means losing communication with all running instances.
+# The files are created if they don't exist (i.e. on the first reconfigure)
 default[:scalr_server][:rabbitmq][:ssl_key_path] = "#{node.scalr_server.install_root}/etc/rabbitmq/server.key"
 default[:scalr_server][:rabbitmq][:ssl_cert_path] = "#{node.scalr_server.install_root}/etc/rabbitmq/server.crt"
 

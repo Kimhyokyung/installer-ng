@@ -65,7 +65,7 @@ module ScalrServer
               :password => ScalrServer[:memcached][:password]
           },
           :rabbitmq => {
-              :password => ScalrServer[:rabbitmq][:scalr_password]
+              :scalr_password => ScalrServer[:rabbitmq][:scalr_password]
           },
           :app => {
             :admin_password => ScalrServer[:app][:admin_password],

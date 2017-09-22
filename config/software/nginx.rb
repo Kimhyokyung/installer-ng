@@ -56,6 +56,9 @@ build do
           ' --with-http_stub_status_module' \
           ' --with-http_gzip_static_module' \
           ' --with-http_v2_module' \
+          ' --with-stream' \
+          ' --with-stream_ssl_module' \
+          ' --with-stream_ssl_preread_module' \
           ' --with-threads', env: env
 
   make env: env

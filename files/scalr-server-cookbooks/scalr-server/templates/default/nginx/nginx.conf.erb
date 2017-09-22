@@ -116,3 +116,18 @@ http {
   <% end %>
 
 }
+
+stream {
+
+  server {
+    listen <%= node[:scalr_server][:proxy][:amqps_bind_port] %>;
+    proxy_pass rabbitmq_hosts;
+  }
+
+  upstream rabbitmq_hosts {
+    <% node[:scalr_server][:proxy][:rabbitmq_upstreams].each do |upstream| %>
+      server <%= upstream %>:<%= node[:scalr_server][:rabbitmq][:bind_port] %>;
+    <% end %>
+  }
+
+}

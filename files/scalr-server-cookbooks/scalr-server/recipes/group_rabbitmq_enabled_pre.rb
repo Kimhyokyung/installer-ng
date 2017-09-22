@@ -33,7 +33,7 @@ execute "rabbitmq_certs" do
             " req -x509 -newkey rsa:4096 -days 9999 -nodes" \
             " -keyout '#{node[:scalr_server][:rabbitmq][:ssl_key_path]}'" \
             " -out '#{node[:scalr_server][:rabbitmq][:ssl_cert_path]}'" \
-            " -subj '/C=US/ST=California/L=San Francisco/O=Scalr/CN=#{rabbitmq_host node}'"
+            " -subj '/C=US/ST=California/L=San Francisco/O=Scalr/CN=#{node[:scalr_server][:routing][:endpoint_host]}'"
   creates   node[:scalr_server][:rabbitmq][:ssl_key_path]
   user      'root'
   action    :run
