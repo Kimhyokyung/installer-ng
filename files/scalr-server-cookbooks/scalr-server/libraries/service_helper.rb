@@ -435,10 +435,6 @@ module Scalr
       node[:scalr_server][:routing][:plotter_port] || (node[:scalr_server][:routing][:endpoint_scheme] == 'https' ? 443 : 80)
     end
 
-    def rabbitmq_host(node)
-      node[:scalr_server][:routing][:rabbitmq_host] || node[:scalr_server][:routing][:endpoint_host]
-    end 
-
   end
 end
 
