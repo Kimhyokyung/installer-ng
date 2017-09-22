@@ -55,8 +55,8 @@ dependency 'putty'
 dependency 'dejavu-sans-ttf'
 dependency 'logrotate'
 dependency 'rabbitmq'
-
 dependency 'nginx'
+dependency 'influxdb'
 
 dependency 'scalr-app-php-libs'
 dependency 'scalr-app-python-libs'
