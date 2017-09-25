@@ -2,8 +2,6 @@
 from debian import deb822
 
 from ._base import BaseRepoAdapter
-from ._constant import HIGHEST_CHAR
-from ._util import get_version_tuple
 
 
 DEB_PKG_TPL = "https://packagecloud.io/{user}/{repo}/{distro}/dists/{release}/main/{arch}/Packages"
@@ -11,7 +9,7 @@ DEB_PKG_TPL = "https://packagecloud.io/{user}/{repo}/{distro}/dists/{release}/ma
 
 class DebRepoAdapter(BaseRepoAdapter):
     def _get_platforms(self):
-        return ["ubuntu/precise", "ubuntu/trusty", "debian/wheezy", "debian/jessie"]
+        return ["ubuntu/precise", "ubuntu/trusty", "ubuntu/xenial", "debian/wheezy", "debian/jessie"]
 
     def _get_archs(self):
         return ["binary-amd64",]
@@ -24,16 +22,8 @@ class DebRepoAdapter(BaseRepoAdapter):
 
     def _extract_orderable_version(self, pkg):
         deb_version = pkg["Version"].decode('utf-8')
-        #deb_version.replace('~', HIGHEST_CHAR)
-
-        #if "-" in deb_version:
-        #    version, iteration = deb_version.split('-')
-        #else:
-        #    version, iteration = deb_version, '1'
-        #return get_version_tuple(version, iteration)
-
         parts = deb_version.split('.')
-        return parts[5]
+        return self._orderable_version(parts[0:3], parts[5])
 
     def _fetch_package_list(self, platform, arch):
         distro, release = platform.split("/")

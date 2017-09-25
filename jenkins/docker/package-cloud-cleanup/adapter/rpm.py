@@ -4,7 +4,6 @@ from xml.etree import ElementTree
 from repodataParser.RepoParser import Parser
 
 from ._base import BaseRepoAdapter
-from ._util import get_version_tuple
 
 
 RPM_ROOT_TPL = "https://packagecloud.io/{user}/{repo}/{platform}/{arch}/"
@@ -40,12 +39,8 @@ class RpmRepoAdapter(BaseRepoAdapter):
         return pkg["name"][0]
 
     def _extract_orderable_version(self, pkg):
-        #version = pkg["version"][1]
-        #ver, rel = version["ver"], version["rel"]
-        #return get_version_tuple(ver, rel)
-
         parts = pkg["version"][1]["ver"].split('.')
-        return parts[4]
+        return self._orderable_version(parts[0:3], parts[4])
 
     def _fetch_package_list(self, platform, arch):
         root_url = RPM_ROOT_TPL.format(user=self.user, repo=self.repo, platform=platform, arch=arch)

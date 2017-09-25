@@ -44,6 +44,7 @@ class BaseRepoAdapter(object):
         pkgs.sort(key=self._extract_orderable_version, reverse=True)
 
         logger.info("%s: found %s package(s)", needle, len(pkgs))
+        logger.debug("versions: %s", [self._extract_orderable_version(p) for p in pkgs])
         if len(pkgs) <= self.versions_to_keep:
             return []
 
@@ -56,6 +57,18 @@ class BaseRepoAdapter(object):
         if res.status_code >= 400 or "error" in res.json():
             logger.error("%s: failed to delete %s (%s)", self._extract_pkg_name(pkg), del_file, res.text)
             raise PackageDeletionFailed()
+
+    def _orderable_version(self, scalr_version, build):
+        # scalr_version is a list representing the version of Scalr that's included in the package: ['7', '7', '2']
+        # build is either: - a build number, like 'bxx-1' (debian) or 'bxxx' (el); or - a date, for nightlies
+        if 'b' in build:
+            build = build.replace('b', '').replace('-1', '')
+            build = int(build)
+        else:
+            # it's a date, we want it to be always smaller than a build number since it is the old versioning scheme
+            build = float('0.' + build)
+        scalr_version = tuple(int(i) for i in scalr_version)
+        return scalr_version, build
 
     # Implementation Specific
 
