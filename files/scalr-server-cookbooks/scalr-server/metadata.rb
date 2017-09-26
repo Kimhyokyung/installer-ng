@@ -11,5 +11,6 @@ version          '7.9.3'
 end
 
 depends 'database', '~> 2.3.0'
+depends 'influxdb', '~> 6.0.0'
 depends 'rabbitmq', '~> 5.2.0'
 depends 'supervisor', '~> 0.4.12'

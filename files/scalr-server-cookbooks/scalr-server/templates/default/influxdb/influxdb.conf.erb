@@ -1,0 +1,16 @@
+# The bind address to use for the RPC service for backup and restore.
+bind-address = "<%= node[:scalr_server][:influxdb][:bind_host] %>:<%= node[:scalr_server][:influxdb][:bind_port] %>"
+reporting-disabled = true
+
+[meta]
+  dir = "<%= data_dir_for node, 'influxdb' %>/meta"
+
+[data]
+  dir = "<%= data_dir_for node, 'influxdb' %>/data"
+  wal-dir = "<%= data_dir_for node, 'influxdb' %>/wal"
+
+[http]
+  # The port used by the API clients
+  enabled = true
+  auth-enabled = true
+  bind-address = "<%= node[:scalr_server][:influxdb][:http_bind_host] %>:<%= node[:scalr_server][:influxdb][:http_bind_port] %>"

@@ -160,6 +160,11 @@ default[:scalr_server][:app][:memcached_servers] = ['127.0.0.1:6281']
 default[:scalr_server][:app][:rabbitmq_host] = '127.0.0.1'
 # Ports are taken from rabbitmq[:bind_port] and rabbitmq[:mgmt_bind_port]
 
+# InfluxDB
+# Host InfluxDB is running on
+default[:scalr_server][:app][:influxdb_host] = '127.0.0.1'
+# Ports are taken from the influxdb section
+
 # Deprecated
 default[:scalr_server][:app][:session_cookie_lifetime] = nil
 
@@ -431,6 +436,29 @@ default[:scalr_server][:memcached][:user] = 'scalr-memcached'
 # Whether to enable SASL in memcached (true) or not (false), or default to whatever the installer sets (nil)
 # NOTE: if this is nil, the installer will automatically enable SASL if Memcached is binding on an IP other than 127.0.0.1
 default[:scalr_server][:memcached][:enable_sasl] = nil
+
+
+############
+# InfluxDB #
+############
+
+# Whether to enable InfluxDB on this host. InfluxDB is used by Scalr to store the managed servers' paerformance statistics.
+default[:scalr_server][:influxdb][:enable] = false
+
+# The host and port the InfluxDB rpc service should bind to
+default[:scalr_server][:influxdb][:bind_host] = '127.0.0.1'
+default[:scalr_server][:influxdb][:bind_port] = 6290
+
+# The host and port the HTTP API should bind to
+default[:scalr_server][:influxdb][:http_bind_host] = '127.0.0.1'
+default[:scalr_server][:influxdb][:http_bind_port] = 6291
+
+# You shouldn't need to change the following
+default[:scalr_server][:influxdb][:scalr_user] = 'scalr'
+# /!\ Ignored, like other passwords
+default[:scalr_server][:influxdb][:scalr_password] = 'CHANGEME'
+default[:scalr_server][:influxdb][:database] = 'scalr'
+
 
 
 ##############

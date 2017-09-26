@@ -87,7 +87,14 @@ module Scalr
                     },
 
                     :connections => {
-                        :mysql => scalr_conn_details.clone  # Ruby wants to use '1' as an alias, and PHP doesn't accept it..
+                        :mysql => scalr_conn_details.clone,  # Ruby wants to use '1' as an alias, and PHP doesn't accept it..
+                        :influxdb => {
+                            :host => node[:scalr_server][:app][:influxdb_host],
+                            :port => node[:scalr_server][:influxdb][:http_bind_port],
+                            :username => node[:scalr_server][:influxdb][:scalr_user],
+                            :password => node[:scalr_server][:influxdb][:scalr_password],
+                            :database => node[:scalr_server][:influxdb][:database]
+                        }
                     },
 
                     :analytics => {
