@@ -26,6 +26,7 @@ module ScalrServer
   default :csg, Mash.new
   default :workflow_engine, Mash.new
   default :rabbitmq, Mash.new
+  default :influxdb, Mash.new
   default :enable_all, true
 
   class << self
@@ -49,6 +50,8 @@ module ScalrServer
 
       ScalrServer[:rabbitmq][:scalr_password] ||= SecureRandom.hex 64
 
+      ScalrServer[:influxdb][:scalr_password] ||= SecureRandom.hex 50
+
       ScalrServer[:app][:admin_password] ||= SecureRandom.hex 12
       ScalrServer[:app][:secret_key] ||= SecureRandom.base64 512
       ScalrServer[:app][:id] ||= SecureRandom.hex 4
@@ -66,6 +69,9 @@ module ScalrServer
           },
           :rabbitmq => {
               :scalr_password => ScalrServer[:rabbitmq][:scalr_password]
+          },
+          :influxdb => {
+              :scalr_password => ScalrServer[:influxdb][:scalr_password]
           },
           :app => {
             :admin_password => ScalrServer[:app][:admin_password],
@@ -116,7 +122,7 @@ module ScalrServer
       results = {:scalr_server => {} }
 
       # Keys that feed `scalr_server` attributes directly
-      %w{routing supervisor app mysql cron rrd service web proxy proxy2 memcached rabbitmq manifest logrotate repos csg workflow_engine enable_all}.each do |key|
+      %w{routing supervisor app mysql cron rrd service web proxy proxy2 memcached rabbitmq manifest logrotate repos csg workflow_engine influxdb enable_all}.each do |key|
         results[:scalr_server][key] = ScalrServer[key]
       end
 

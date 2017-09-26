@@ -37,6 +37,7 @@ dependency 'prepare'
 dependency 'chef-gem'           # For embedded chef-solo
 dependency 'mysql-gem'          # We use it in embedded chef-solo
 dependency 'safe_yaml-gem'      # Same as above
+dependency 'influxdb-gem'       # Used in chef cookbook
 
 # Software we need to run
 dependency 'python3'
