@@ -27,7 +27,7 @@ DIRPATH=${PKG_FILE%/*}
 # If this is centos, also upload oracle versions
 #if PLATFORM=el/6, replace el with ol
 
-docker run \
+docker run --rm \
 -v ${DIRPATH}:/package \
 -e "PACKAGECLOUD_TOKEN=${PACKAGECLOUD_TOKEN}" \
 "${DOCKER_IMG}" \
