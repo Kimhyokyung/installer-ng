@@ -99,7 +99,8 @@ mkdir -p ${WORKSPACE}
 cd ${WORKSPACE}
 
 #Force close current running jobs
-if docker ps --all | grep " ${CONTAINER} "; then
+if docker ps --all | grep " ${CONTAINER}"; then
+  docker stop "${CONTAINER}" || true
   docker rm -f "${CONTAINER}"
 fi
 
