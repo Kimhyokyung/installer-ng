@@ -36,8 +36,24 @@ directory data_dir_for(node, 'service') do
 end
 
 directory "#{data_dir_for(node, 'service')}/graphics" do
-  description "Create directory (" + "#{data_dir_for(node, 'service')}/graphics" + ")"
+  description "Create directory (#{data_dir_for(node, 'service')}/graphics)"
   # This is where we serve stats graphics from
+  owner     node[:scalr_server][:app][:user]
+  group     node[:scalr_server][:app][:user]
+  mode      0755
+end
+
+# For the beat service
+directory "#{data_dir_for(node, 'beat')}" do
+  # Don't use recursive option to ensure we work whatever the umask is
+  description "Create directory (#{data_dir_for(node, 'beat')})"
+  owner     node[:scalr_server][:app][:user]
+  group     node[:scalr_server][:app][:user]
+  mode      0755
+end
+
+directory "#{data_dir_for(node, 'beat')}/schedule" do
+  description "Create directory (#{data_dir_for(node, 'beat')}/schedule)"
   owner     node[:scalr_server][:app][:user]
   group     node[:scalr_server][:app][:user]
   mode      0755

@@ -38,6 +38,41 @@ disabled_services(node, :python).each do |svc|
   end
 end
 
+
+enabled_services(node, :celery).each do |svc|
+  name = "service-#{svc[:name]}"
+  should_restart = service_is_up?(node, name)
+
+  supervisor_service name do
+    description     name + " service"
+    command         "#{node[:scalr_server][:install_root]}/embedded/bin/celery " + svc[:service_args]
+    stdout_logfile  "#{node[:scalr_server][:install_root]}/var/log/service/#{name}.log"
+    stderr_logfile  "#{node[:scalr_server][:install_root]}/var/log/service/#{name}.err"
+    environment     'PYTHONPATH' => "#{node[:scalr_server][:install_root]}/embedded/scalr/app/python/fatmouse"
+    redirect_stderr true
+    user            node[:scalr_server][:app][:user]
+    autostart       true
+    startsecs       10
+    action          [:enable, :start]
+    subscribes      :restart, 'file[scalr_config]' if should_restart
+    subscribes      :restart, 'file[scalr_code]' if should_restart
+    subscribes      :restart, 'file[scalr_cryptokey]' if should_restart
+    subscribes      :restart, 'file[scalr_id]' if should_restart
+    subscribes      :restart, 'user[scalr_user]' if should_restart
+  end
+end
+
+
+disabled_services(node, :celery).each do |svc|
+  name = "service-#{svc[:name]}"
+
+  supervisor_service name do
+    description "Stop " + name + " service"
+    action service_is_up?(node, name) ? [:stop, :disable] : [:disable]
+  end
+end
+
+
 zmq_name = 'zmq_service'
 
 if enabled_services(node, :php).any?

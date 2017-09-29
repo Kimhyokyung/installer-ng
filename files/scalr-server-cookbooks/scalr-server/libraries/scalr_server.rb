@@ -122,7 +122,7 @@ module ScalrServer
       results = {:scalr_server => {} }
 
       # Keys that feed `scalr_server` attributes directly
-      %w{routing supervisor app mysql cron rrd service web proxy proxy2 memcached rabbitmq manifest logrotate repos csg workflow_engine influxdb enable_all}.each do |key|
+      %w{routing supervisor app mysql cron rrd service web proxy proxy2 memcached rabbitmq manifest logrotate repos csg influxdb enable_all}.each do |key|
         results[:scalr_server][key] = ScalrServer[key]
       end
 
