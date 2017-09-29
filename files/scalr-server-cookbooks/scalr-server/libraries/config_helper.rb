@@ -186,9 +186,7 @@ module Scalr
                             :broker_use_ssl => true,
                         },
                         :rabbitmq => {
-                            :public_host => "amqp://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
-                                            ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
-                                            "@#{node[:scalr_server][:routing][:endpoint_host]}" \
+                            :public_host => "#{node[:scalr_server][:routing][:endpoint_host]}" \
                                             ":#{node[:scalr_server][:rabbitmq][:bind_port]}",
                             :api_url => "https://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
                                         ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
