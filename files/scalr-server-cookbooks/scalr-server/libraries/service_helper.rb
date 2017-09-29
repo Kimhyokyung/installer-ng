@@ -42,7 +42,16 @@ module Scalr
       [
           {
               :name => 'beat', :service_style => :celery,
-              :service_args => "beat -A server.apps.beat --schedule=#{data_dir_for(node, 'beat')}/schedule"
+              :service_args => "beat -A server.apps.beat" \
+                  " --schedule=#{data_dir_for(node, 'beat')}/schedule"
+          },
+
+          {
+              :name => 'workflow-engine', :service_style => :celery,
+              :service_args => "worker -Q server -A server.apps.server" \
+                  ' -n workflow-engine-%(process_num)s' \
+                  ' -l INFO -P gevent --without-gossip' \
+                  ' --without-heartbeat --without-mingle'
           },
 
           {
