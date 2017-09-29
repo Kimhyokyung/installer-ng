@@ -1,5 +1,5 @@
 name 'rabbitmq'
-default_version '3.6.11'
+default_version '3.6.12'
 
 dependency 'erlang'
 
@@ -9,6 +9,11 @@ relative_path "rabbitmq_server-#{version}"
 version '3.6.11' do
   source md5: '62dccb5a1bcf8a97450c5796723fe8b9'
 end
+
+version '3.6.12' do
+  source md5: 'a747a2c3ca171296c089fd635dbfeda7'
+end
+
 
 license 'MPL-2.0'
 license_file 'LICENSE'
