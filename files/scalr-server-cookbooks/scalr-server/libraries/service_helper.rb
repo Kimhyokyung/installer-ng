@@ -48,7 +48,7 @@ module Scalr
 
           {
               :name => 'monitor', :service_style => :celery,
-              :service_args => 'worker -Q monitor -A server.apps.monitor' \
+              :service_args => 'worker -A server.apps.monitor' \
                   ' -n monitor-%(process_num)s' \
                   ' -P gevent --without-gossip' \
                   ' --without-heartbeat --without-mingle'
