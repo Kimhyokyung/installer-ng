@@ -454,6 +454,7 @@ default[:scalr_server][:influxdb][:http_bind_host] = '127.0.0.1'
 default[:scalr_server][:influxdb][:http_bind_port] = 6291
 
 # You shouldn't need to change the following
+default[:scalr_server][:influxdb][:user] = 'scalr-influxdb'
 default[:scalr_server][:influxdb][:scalr_user] = 'scalr'
 # /!\ Ignored, like other passwords
 default[:scalr_server][:influxdb][:scalr_password] = 'CHANGEME'

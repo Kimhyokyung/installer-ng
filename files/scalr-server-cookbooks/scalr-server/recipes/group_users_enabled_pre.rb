@@ -51,3 +51,17 @@ group 'rabbitmq_group' do
   group_name node[:scalr_server][:rabbitmq][:user]
   members   [ node[:scalr_server][:rabbitmq][:user] ]
 end
+
+
+user 'influxdb_user' do
+  description "Create Linux user (" + node[:scalr_server][:influxdb][:user] + ")"
+  username  node[:scalr_server][:influxdb][:user]
+  home      data_dir_for(node, 'influxdb')  # TODO - Check if this works when it doesn't exist.
+  system    true
+end
+
+group 'influxdb_group' do
+  description "Create Linux group (" + node[:scalr_server][:influxdb][:user] + ")"
+  group_name node[:scalr_server][:influxdb][:user]
+  members   [ node[:scalr_server][:influxdb][:user] ]
+end

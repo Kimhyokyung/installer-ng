@@ -10,22 +10,22 @@ end
 
 directory run_dir_for(node, 'influxdb') do
   description "Create directory (" + run_dir_for(node, 'influxdb') + ")"
-  owner     node[:scalr_server][:app][:user]
-  group     node[:scalr_server][:app][:user]
+  owner     node[:scalr_server][:influxdb][:user]
+  group     node[:scalr_server][:influxdb][:user]
   mode      0755
 end
 
 directory data_dir_for(node, 'influxdb') do
   description "Create directory (" + data_dir_for(node, 'influxdb') + ")"
-  owner     node[:scalr_server][:app][:user]
-  group     node[:scalr_server][:app][:user]
+  owner     node[:scalr_server][:influxdb][:user]
+  group     node[:scalr_server][:influxdb][:user]
   mode      0755
 end
 
 directory log_dir_for(node, 'influxdb') do
   description "Create directory (" + log_dir_for(node, 'influxdb') + ")"
-  owner     node[:scalr_server][:app][:user]
-  group     node[:scalr_server][:app][:user]
+  owner     node[:scalr_server][:influxdb][:user]
+  group     node[:scalr_server][:influxdb][:user]
   mode      0755
 end
 
