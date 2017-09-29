@@ -41,6 +41,11 @@ module Scalr
     def _all_services
       [
           {
+              :name => 'beat', :service_style => :celery,
+              :service_args => "beat -A server.apps.beat --schedule=#{data_dir_for(node, 'beat')}/schedule"
+          },
+
+          {
               :name => 'msgsender', :service_style => :python,
               :service_module => 'msg_sender', :service_extra_args => '',
           },
