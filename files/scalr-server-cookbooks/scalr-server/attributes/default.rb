@@ -360,21 +360,13 @@ default[:scalr_server][:cron][:disable] = []
 default[:scalr_server][:service][:enable] = false
 
 # Takes precedence over `enable` to disable specific services.
-default[:scalr_server][:service][:disable] = []
+default[:scalr_server][:service][:disable] = ['workflow-engine', 'beat']
 
 # The scheme, host, and port the plotter should bind to.
 # Those settings should match proxy[:plotter_upstreams]
 default[:scalr_server][:service][:plotter_bind_scheme] = 'http'
 default[:scalr_server][:service][:plotter_bind_host] = '127.0.0.1'
 default[:scalr_server][:service][:plotter_bind_port] = 6272
-
-
-###################
-# Workflow engine #
-###################
-
-# Whether to enable the workflow engine service
-default[:scalr_server][:workflow_engine][:enable] = false
 
 
 #######

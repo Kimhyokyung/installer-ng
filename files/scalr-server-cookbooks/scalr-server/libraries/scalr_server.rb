@@ -24,7 +24,6 @@ module ScalrServer
   default :logrotate, Mash.new
   default :repos, Mash.new
   default :csg, Mash.new
-  default :workflow_engine, Mash.new
   default :rabbitmq, Mash.new
   default :influxdb, Mash.new
   default :enable_all, true

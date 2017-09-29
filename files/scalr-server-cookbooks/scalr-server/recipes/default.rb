@@ -42,7 +42,7 @@ include_recipe 'scalr-server::_config_dir'
 node.consume_attributes(ScalrServer.generate_config node)
 
 
-all_modules = %i{dirs users mysql crond cron logrotate memcached rabbitmq app cron rrd service workflow_engine csg web repos proxy httpd nginx influxdb sysctl}
+all_modules = %i{dirs users mysql crond cron logrotate memcached rabbitmq app cron rrd service csg web repos proxy httpd nginx influxdb sysctl}
 
 # Stage 1 - Prepare before supervisor starts
 all_modules.each do |mod|
