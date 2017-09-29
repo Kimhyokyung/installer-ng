@@ -35,6 +35,7 @@ dependency 'php'
 dependency 'php-raphf'
 dependency 'php-propro'
 
+
 relative_path "pecl_http-#{version}"
 
 license 'BSD-2-Clause'
@@ -49,6 +50,7 @@ build do
   command './configure' \
           " --with-php-config=#{install_dir}/embedded/bin/php-config" \
           ' --with-http' \
+          ' --without-http-libicu-dir' \
           " --with-http-libcurl-dir=#{install_dir}/embedded" \
           " --with-http-zlib-dir=#{install_dir}/embedded", env: env
   make "-j #{workers}", env: env
