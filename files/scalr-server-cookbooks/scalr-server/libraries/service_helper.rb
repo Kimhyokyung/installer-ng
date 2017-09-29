@@ -48,9 +48,9 @@ module Scalr
 
           {
               :name => 'workflow-engine', :service_style => :celery,
-              :service_args => "worker -Q server -A server.apps.server" \
+              :service_args => "worker -A server.apps.server" \
                   ' -n workflow-engine-%(process_num)s' \
-                  ' -l INFO -P gevent --without-gossip' \
+                  ' -P gevent --without-gossip' \
                   ' --without-heartbeat --without-mingle'
           },
 
