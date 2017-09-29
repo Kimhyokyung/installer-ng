@@ -5,7 +5,8 @@ supervisor_service 'influxdb' do
                   " -pidfile #{run_dir_for node, 'influxdb'}/influxdb.pid"
   stdout_logfile  "#{log_dir_for node, 'supervisor'}/influxdb.log"
   stderr_logfile  "#{log_dir_for node, 'supervisor'}/influxdb.log"
-  redirect_stderr false
+  redirect_stderr true
+  user            node[:scalr_server][:influxdb][:user]
   autostart       true
   startsecs       3
   action          [:enable, :start]
