@@ -103,7 +103,7 @@ http {
     <% end %>
   <% end %>
 
-  <% if enable_module?(node, :repos) %>
+  <% if enable_module?(node, :repos) && ! enable_module?(node, :proxy2) %>
     server {
       listen <%= node[:scalr_server][:repos][:bind_host] %>:<%= node[:scalr_server][:repos][:bind_port] %> default_server backlog=4096;
       server_name _;
@@ -118,7 +118,7 @@ http {
 }
 
 
-<% if enable_module?(node, :proxy) && ! enable_module?(node, :proxy2) %>
+<% if enable_module?(node, :proxy) %>
 stream {
 
   server {
