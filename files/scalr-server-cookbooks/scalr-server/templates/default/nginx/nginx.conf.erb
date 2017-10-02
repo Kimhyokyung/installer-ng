@@ -118,7 +118,7 @@ http {
 }
 
 
-<% if enable_module?(node, :proxy) && ! enable_module?(node, :proxy2) %>
+<% if enable_module?(node, :proxy) %>
 stream {
 
   server {
