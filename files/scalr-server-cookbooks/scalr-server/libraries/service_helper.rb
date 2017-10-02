@@ -309,14 +309,14 @@ module Scalr
         return node[:scalr_server][mod][:enable]
       end
 
-      # HTTPD is enabled if we have web or proxy2
+      # HTTPD is enabled if we have web or (proxy2 and one of the proxy components)
       if mod == :httpd
-        return enable_module?(node, :web) || enable_module?(node, :proxy2)
+        return enable_module?(node, :web) || (enable_module?(node, :proxy2) && (enable_module?(node, :proxy) || enable_module?(node, :repos)))
       end
 
       # nginx is enabled if we have repos or load balancer
       if mod == :nginx
-        return (enable_module?(node, :proxy) && !enable_module?(node, :proxy2)) || enable_module?(node, :repos)
+        return (enable_module?(node, :proxy) || enable_module?(node, :repos))  && !enable_module?(node, :proxy2)
       end
 
       # proxy2 must be explicitely enabled
