@@ -15,6 +15,26 @@ location ~* ^.+\.(css|js)$ {
 }
 
 location / {
+
+  <% if node[:scalr_server][:proxy].key?(:whitelist_api) %>
+    # API whitelist
+    location ~ ^/(api|api.php) {
+     <% node[:scalr_server][:proxy][:whitelist_api].each do |ip| %>
+      allow <%= ip %>;
+     <% end %>
+      deny all;
+      proxy_pass http://app;
+    }
+  <% end %>
+
+  <% if node[:scalr_server][:proxy].key?(:whitelist_ui) %>
+    # UI whitelist
+    <% node[:scalr_server][:proxy][:whitelist_ui].each do |ip| %>
+      allow <%= ip %>;
+    <% end %>
+    deny all;
+  <% end %>
+
   proxy_pass http://app;
 }
 
