@@ -126,7 +126,7 @@ ruby_block 'mail_templates' do
     FileUtils.rm_rf("#{node[:scalr_server][:install_root]}/embedded/scalr/app/templates")
 
     Dir.glob("#{node[:scalr_server][:install_root]}/embedded/scalr/app/templates.org/**/").each { |x|
-      FileUtils.mkpath x.sub('templates.org', 'templates')
+      FileUtils.mkpath x.sub('templates.org', 'templates'), :mode => 0755
     }
 
     Dir.glob("#{node[:scalr_server][:install_root]}/embedded/scalr/app/templates.org/**/*").each { |x|
