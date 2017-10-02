@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name 'nginx'
-default_version '1.13.4'
+default_version '1.13.5'
 
 source url: "https://nginx.org/download/nginx-#{version}.tar.gz"
 
@@ -24,6 +24,11 @@ end
 version '1.13.4' do
   source md5: '42a3ca70cd292a149ba4f60862599245'
 end
+
+version '1.13.5' do
+  source md5: 'f193722159adfb1eb8117c0491fd17ec'
+end
+
 
 dependency 'openssl'
 dependency 'pcre'
