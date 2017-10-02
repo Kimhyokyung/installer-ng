@@ -35,7 +35,7 @@ http {
   charset utf-8;
   etag off;
 
-  <% if enable_module?(node, :proxy) %>
+  <% if enable_module?(node, :proxy) && ! enable_module?(node, :proxy2) %>
     upstream app {
       least_conn;
 
