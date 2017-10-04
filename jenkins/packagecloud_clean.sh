@@ -48,7 +48,7 @@ FILENAME=${PACKAGECLOUD_CLEAN##*/}
 DIRPATH=${PACKAGECLOUD_CLEAN%/*}
 DOCKER_IMG="ubuntu:trusty"
 
-docker run \
+docker run --rm \
 -v ${WORKSPACE}/installer-ng:${WORKSPACE}/installer-ng \
 -v ${DIRPATH}:/config \
 -e CONFIG_FILE=/config/${FILENAME} \
