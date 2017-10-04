@@ -2,6 +2,12 @@ source 'https://supermarket.chef.io'
 
 metadata
 
+def local_cookbook(name, options = {})
+  cookbook(name, {
+    path: File.expand_path("../#{name}", File.dirname(__FILE__))
+   }.merge(options))
+end
+
 cookbook 'apparmor', '= 0.9.4'
 cookbook 'apt', '= 2.6.1'
 cookbook 'aws', '= 3.3.1'
@@ -28,7 +34,6 @@ cookbook 'yum', '= 3.10.0'
 cookbook 'yum-epel', '= 0.6.6'
 cookbook 'yum-mysql-community', '= 0.2.0'
 
-cookbook 'rabbitmq', path: File.expand_path('../../rabbitmq', __FILE__)
-
-cookbook 'rackspace_timezone', github: 'scalr-cookbooks/rackspace_timezone', tag: 'v1.0.1+scalr'
-cookbook 'supervisor', github: 'scalr-cookbooks/supervisor', tag: 'v0.4.13+scalr'
+local_cookbook 'rabbitmq'
+local_cookbook 'rackspace_timezone'
+local_cookbook 'supervisor'
