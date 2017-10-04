@@ -1,7 +1,0 @@
-INCREASE STARTSECS
-
-logorate.
-
-supervisord processes: enable autorestart on all exit codes
-
-ID Marker

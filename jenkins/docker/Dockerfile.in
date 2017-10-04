@@ -13,8 +13,3 @@ RUN /environment.sh
 
 ADD ./jenkins/docker/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-
-#ADD ./jenkins/docker/clean_bundle_repo.py /
-#ADD ./jenkins/docker/omnibus_build.sh /
-#CMD ["/omnibus_build.sh"]
-
