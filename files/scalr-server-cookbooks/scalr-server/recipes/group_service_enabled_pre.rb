@@ -52,9 +52,3 @@ directory "#{data_dir_for(node, 'beat')}" do
   mode      0755
 end
 
-directory "#{data_dir_for(node, 'beat')}/schedule" do
-  description "Create directory (#{data_dir_for(node, 'beat')}/schedule)"
-  owner     node[:scalr_server][:app][:user]
-  group     node[:scalr_server][:app][:user]
-  mode      0755
-end

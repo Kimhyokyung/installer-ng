@@ -43,7 +43,8 @@ module Scalr
           {
               :name => 'beat', :service_style => :celery,
               :service_args => "beat -A server.apps.beat" \
-                  " --schedule=#{data_dir_for(node, 'beat')}/schedule"
+                  " --schedule=#{data_dir_for(node, 'beat')}/schedule" \
+                  " --pidfile=#{run_dir_for(node, 'service')}/beat.pid"
           },
 
           {
