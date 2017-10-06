@@ -185,6 +185,7 @@ module Scalr
                     },
 
                     :workflow_engine => {
+                        :mysql => scalr_conn_details.clone,
                         :celery => {
                             :broker_url => "amqp://#{node[:scalr_server][:rabbitmq][:scalr_user]}" \
                                            ":#{node[:scalr_server][:rabbitmq][:scalr_password]}" \
